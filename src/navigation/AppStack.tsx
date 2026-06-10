@@ -11,6 +11,7 @@ import { SafetyBriefingScreen } from '@/screens/attempt/SafetyBriefingScreen';
 import { ImportActivityScreen } from '@/screens/attempt/ImportActivityScreen';
 import { RaceLeaderboardScreen } from '@/screens/leaderboard/RaceLeaderboardScreen';
 import { StravaConnectScreen } from '@/screens/settings/StravaConnectScreen';
+import { PurchaseScreen } from '@/screens/purchase/PurchaseScreen';
 import type { AppStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -28,6 +29,11 @@ export function AppStack() {
     >
       <Stack.Screen name="Tabs" component={MainTabs} options={{ headerShown: false }} />
       <Stack.Screen name="RaceDetail" component={RaceDetailScreen} options={{ title: 'Course' }} />
+      <Stack.Screen
+        name="Purchase"
+        component={PurchaseScreen}
+        options={{ title: 'Accéder', presentation: 'modal' }}
+      />
       <Stack.Screen
         name="SafetyBriefing"
         component={SafetyBriefingScreen}

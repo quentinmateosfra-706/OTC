@@ -17,7 +17,6 @@ import {
   StyleSheet,
   ActivityIndicator,
   useWindowDimensions,
-  Pressable,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -33,6 +32,7 @@ import { MapboxTraceView } from '@/components/MapboxTraceView';
 import { colors, spacing, radius } from '@/constants/theme';
 import { fetchRaceById } from '@/services/race.service';
 import { usePricing } from '@/hooks/usePricing';
+import { useHasAccess } from '@/store/usePurchaseStore';
 import {
   formatDistance,
   formatElevation,
@@ -92,6 +92,8 @@ export function RaceDetailScreen() {
 
   const price = priceFor(race.distanceKm);
   const isOpen = race.status === 'active';
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const hasAccess = useHasAccess(race.id, race.season);
 
   // Coordonnées pour Mapbox : on génère depuis les checkpoints si pas de GPX parsé.
   // (Le GPX complet sera parsé à l'import d'activité — Phase 7.)
@@ -210,10 +212,21 @@ export function RaceDetailScreen() {
             </AppText>
           </View>
           <Button
-            label={isOpen ? 'Accéder à cette course' : 'Voir le palmarès'}
+            label={
+              hasAccess
+                ? 'Lancer une tentative'
+                : isOpen
+                ? 'Accéder à cette course'
+                : 'Voir le palmarès'
+            }
             onPress={() => {
-              // Phase 6 : achat. Phase 8 : palmarès archivé.
-              navigation.navigate('RaceLeaderboard', { raceId: race.id, season: race.season });
+              if (hasAccess) {
+                navigation.navigate('SafetyBriefing', { raceId: race.id });
+              } else if (isOpen) {
+                navigation.navigate('Purchase', { raceId: race.id });
+              } else {
+                navigation.navigate('RaceLeaderboard', { raceId: race.id, season: race.season });
+              }
             }}
           />
           {isOpen && (

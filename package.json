@@ -29,7 +29,8 @@
     "zustand": "^4.5.5",
     "firebase": "^10.13.0",
     "react-native-svg": "15.2.0",
-    "@rnmapbox/maps": "^10.1.26"
+    "@rnmapbox/maps": "^10.1.26",
+    "react-native-purchases": "^8.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

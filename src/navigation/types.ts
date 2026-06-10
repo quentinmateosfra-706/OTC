@@ -24,6 +24,7 @@ export type MainTabParamList = {
 export type AppStackParamList = {
   Tabs: NavigatorScreenParams<MainTabParamList>;
   RaceDetail: { raceId: string };
+  Purchase: { raceId: string };
   SafetyBriefing: { raceId: string };
   ImportActivity: { raceId: string };
   RaceLeaderboard: { raceId: string; season: string };
