@@ -36,7 +36,6 @@ const navTheme: NavTheme = {
 export function RootNavigator() {
   const initializing = useAuthStore((s) => s.initializing);
   const firebaseUser = useAuthStore((s) => s.firebaseUser);
-  const demoMode = useAuthStore((s) => s.demoMode);
 
   if (initializing) {
     return (
@@ -46,7 +45,7 @@ export function RootNavigator() {
     );
   }
 
-  const isAuthenticated = firebaseUser !== null || demoMode;
+  const isAuthenticated = firebaseUser !== null;
 
   return (
     <NavigationContainer theme={navTheme}>

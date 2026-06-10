@@ -50,8 +50,8 @@ les composants d'écran.
 ## Avancement
 
 - [x] **Phase 1 — Setup** : projet Expo, TypeScript, thème, config Firebase, types, règles de sécurité
-- [ ] Phase 2 — Navigation
-- [ ] Phase 3 — Auth + décharge de responsabilité
+- [x] **Phase 2 — Navigation** : aiguillage Auth/App, AuthStack, AppStack, MainTabs
+- [x] **Phase 3 — Auth** : email/Apple/Google, profil coureur, décharge de responsabilité horodatée
 - [ ] Phase 4 — Connexion Strava
 - [ ] Phase 5 — Catalogue de courses
 - [ ] Phase 6 — Achat

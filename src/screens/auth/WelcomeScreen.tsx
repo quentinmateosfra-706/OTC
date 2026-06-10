@@ -10,14 +10,12 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppText } from '@/components/ui/AppText';
 import { Button } from '@/components/ui/Button';
 import { colors, spacing } from '@/constants/theme';
-import { useAuthStore } from '@/store/useAuthStore';
 import type { AuthStackParamList } from '@/navigation/types';
 
 type Nav = NativeStackNavigationProp<AuthStackParamList, 'Welcome'>;
 
 export function WelcomeScreen() {
   const navigation = useNavigation<Nav>();
-  const setDemoMode = useAuthStore((s) => s.setDemoMode);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -47,13 +45,6 @@ export function WelcomeScreen() {
           label="J'ai déjà un compte"
           variant="ghost"
           onPress={() => navigation.navigate('Login')}
-          style={styles.secondaryBtn}
-        />
-        {/* Temporaire (Phase 2) : explorer l'app sans compte. Retiré en Phase 3. */}
-        <Button
-          label="Aperçu démo"
-          variant="ghost"
-          onPress={() => setDemoMode(true)}
           style={styles.secondaryBtn}
         />
       </View>
