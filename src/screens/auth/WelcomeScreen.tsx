@@ -1,16 +1,24 @@
 /**
- * Écran « Manifeste » — sert d'accueil provisoire en Phase 1 et de
- * vitrine du thème « Trace Solitaire ». Il sera remplacé par le vrai
- * flux d'onboarding/auth en Phase 2-3.
+ * Écran d'accueil (Manifeste) — première impression, vitrine du thème
+ * « Trace Solitaire ». Oriente vers connexion / inscription.
  */
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppText } from '@/components/ui/AppText';
 import { Button } from '@/components/ui/Button';
 import { colors, spacing } from '@/constants/theme';
+import { useAuthStore } from '@/store/useAuthStore';
+import type { AuthStackParamList } from '@/navigation/types';
 
-export function ManifestoScreen() {
+type Nav = NativeStackNavigationProp<AuthStackParamList, 'Welcome'>;
+
+export function WelcomeScreen() {
+  const navigation = useNavigation<Nav>();
+  const setDemoMode = useAuthStore((s) => s.setDemoMode);
+
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
@@ -34,11 +42,18 @@ export function ManifestoScreen() {
 
         <View style={styles.spacer} />
 
-        <Button label="Commencer" onPress={() => {}} />
+        <Button label="Créer un compte" onPress={() => navigation.navigate('Register')} />
         <Button
-          label="En savoir plus"
+          label="J'ai déjà un compte"
           variant="ghost"
-          onPress={() => {}}
+          onPress={() => navigation.navigate('Login')}
+          style={styles.secondaryBtn}
+        />
+        {/* Temporaire (Phase 2) : explorer l'app sans compte. Retiré en Phase 3. */}
+        <Button
+          label="Aperçu démo"
+          variant="ghost"
+          onPress={() => setDemoMode(true)}
           style={styles.secondaryBtn}
         />
       </View>
