@@ -1,0 +1,79 @@
+rules_version = '2';
+
+// ============================================================
+//  Règles de sécurité Firestore — OTC
+//  Principe : un utilisateur ne lit/écrit que ses propres données.
+//  Les écritures sensibles sont réservées aux Cloud Functions
+//  (Admin SDK, qui contourne ces règles) et au rôle admin.
+// ============================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -- Helpers ------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+    function isAdmin() {
+      return isSignedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // -- users : chacun ses données ; consents en lecture seule client
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create, update: if isOwner(uid);
+      allow delete: if isAdmin();
+
+      match /consents/{consentId} {
+        allow read: if isOwner(uid) || isAdmin();
+        allow write: if false; // écrit uniquement par les Functions
+      }
+    }
+
+    // -- races / pricing / leaderboard : lecture publique
+    match /races/{raceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /pricing/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /leaderboard/{lbId} {
+      allow read: if true;
+      allow write: if false; // Functions uniquement
+      match /entries/{userId} {
+        allow read: if true;
+        allow write: if false;
+      }
+    }
+
+    // -- purchases / subscriptions / attempts : lecture owner, écriture Functions
+    match /purchases/{purchaseId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+    match /subscriptions/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if false;
+    }
+    match /attempts/{attemptId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+
+    // -- organizers : admin uniquement
+    match /organizers/{organizerId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // -- tokens Strava : INTERDIT côté client (Functions uniquement)
+    match /_stravaTokens/{uid} {
+      allow read, write: if false;
+    }
+  }
+}

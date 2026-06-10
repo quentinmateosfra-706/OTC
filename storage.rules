@@ -1,0 +1,14 @@
+rules_version = '2';
+
+// Stockage des fichiers GPX des courses.
+// Lecture publique (la trace est nécessaire pour courir),
+// écriture réservée aux admins / Cloud Functions.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /gpx/{raceId} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}

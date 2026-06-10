@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "OTC",
+    "slug": "otc",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "otc",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": false,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.otc.app",
+      "deploymentTarget": "15.0"
+    },
+    "android": {
+      "package": "com.otc.app",
+      "minSdkVersion": 26
+    },
+    "plugins": ["expo-font"],
+    "extra": {
+      "eas": {
+        "projectId": "TODO-EAS-PROJECT-ID"
+      }
+    }
+  }
+}

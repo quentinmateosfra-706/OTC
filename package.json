@@ -1,0 +1,37 @@
+{
+  "name": "otc",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo run:ios",
+    "android": "expo run:android",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "expo": "~51.0.0",
+    "expo-font": "~12.0.0",
+    "expo-splash-screen": "~0.27.5",
+    "expo-status-bar": "~1.12.0",
+    "react": "18.2.0",
+    "react-native": "0.74.5",
+    "react-native-safe-area-context": "4.10.5",
+    "react-native-screens": "3.31.1",
+    "@react-navigation/native": "^6.1.18",
+    "@react-navigation/native-stack": "^6.11.0",
+    "@react-navigation/bottom-tabs": "^6.6.1",
+    "zustand": "^4.5.5",
+    "firebase": "^10.13.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "babel-preset-expo": "~11.0.0",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "@types/react": "~18.2.79",
+    "typescript": "~5.3.3",
+    "eslint": "^8.57.0"
+  },
+  "private": true
+}

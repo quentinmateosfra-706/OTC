@@ -1,0 +1,27 @@
+# Dépendances
+node_modules/
+functions/node_modules/
+admin/node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+*.orig.*
+
+# Secrets / environnement
+.env
+.env.local
+*.keystore
+google-services.json
+GoogleService-Info.plist
+functions/.runtimeconfig.json
+functions/service-account*.json
+
+# Builds natifs
+ios/
+android/
+
+# Système
+.DS_Store
+*.log
