@@ -50,6 +50,14 @@ service cloud.firestore {
         allow write: if false;
       }
     }
+    match /leaderboard_global/{docId} {
+      allow read: if true;
+      allow write: if false;
+      match /entries/{userId} {
+        allow read: if true;
+        allow write: if false;
+      }
+    }
 
     // -- purchases / subscriptions / attempts : lecture owner, écriture Functions
     match /purchases/{purchaseId} {

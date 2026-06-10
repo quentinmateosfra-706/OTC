@@ -22,6 +22,8 @@ import { validateTrace, checkDirection } from './frechet';
 import { parseGpx, traceDurationSeconds } from './gpx.parser';
 import { checkAntiCheat, checkNaismith } from './anticheat';
 import { verifyCheckpoints } from './checkpoint.checker';
+import { recalculateRanks } from '../leaderboard/rank.calculator';
+import { getAgeBracket, getCategoryCode } from '../utils/category';
 import type { GeoPoint, TrackPoint } from './frechet';
 
 if (!admin.apps.length) admin.initializeApp();
@@ -132,36 +134,59 @@ async function getValidAccessToken(uid: string): Promise<string> {
 async function updateLeaderboard(
   uid: string,
   raceId: string,
+  raceName: string,
   season: string,
   timeSeconds: number,
 ): Promise<boolean> {
   const lbId = `${raceId}_${season}`;
   const entryRef = db.collection('leaderboard').doc(lbId).collection('entries').doc(uid);
+  const globalEntryRef = db.collection('leaderboard_global').doc(season).collection('entries').doc(uid);
+  const metaRef = db.collection('leaderboard_global').doc('meta');
 
-  return db.runTransaction(async (t) => {
+  const isNewRecord = await db.runTransaction(async (t) => {
     const snap = await t.get(entryRef);
-    if (snap.exists) {
-      const current = snap.data()!.bestTimeSeconds as number;
-      if (timeSeconds >= current) return false; // pas d'amélioration
-    }
+    const isImprovement = !snap.exists || (snap.data()!.durationSeconds as number) > timeSeconds;
+
+    if (!isImprovement) return false;
 
     const userSnap = await t.get(db.collection('users').doc(uid));
     const user = userSnap.data() ?? {};
 
-    t.set(entryRef, {
-      userId: uid,
-      displayName: user.displayName ?? 'Anonyme',
-      club: user.club ?? null,
-      bestTimeSeconds: timeSeconds,
-      region: user.region ?? null,
-      sex: user.sex ?? null,
-      ageBracket: 'Senior', // calculé plus finement en Phase 8
-      category: `S${user.sex ?? 'H'}`,
-      rank: 0, // recalculé par une Function planifiée
-    });
+    const sex = (user.sex as 'H' | 'F') ?? 'H';
+    const birthDate = (user.birthDate as string) ?? null;
+    const ageBracket = birthDate ? getAgeBracket(birthDate, season) : 'Senior';
+    const categoryCode = getCategoryCode(sex, ageBracket);
+    const score = Math.max(0, Math.min(100, Math.round(100 - (timeSeconds / 3600) * 10)));
+
+    const entryData = {
+      uid,
+      displayName: (user.displayName as string) ?? 'Anonyme',
+      gender: sex,
+      categoryCode,
+      category: ageBracket,
+      region: (user.region as string) ?? null,
+      durationSeconds: timeSeconds,
+      score,
+      rank: 0,
+      validatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      isNewRecord: true,
+    };
+
+    t.set(entryRef, entryData);
+    t.set(globalEntryRef, { ...entryData, raceId, raceName });
 
     return true;
   });
+
+  if (isNewRecord) {
+    await metaRef.set(
+      { seasons: admin.firestore.FieldValue.arrayUnion(season) },
+      { merge: true },
+    );
+    await recalculateRanks(raceId, season);
+  }
+
+  return isNewRecord;
 }
 
 // ─── Cloud Function principale ────────────────────────────────────────────────
@@ -326,7 +351,8 @@ export const validateAttempt = functions
 
       // ── 12. Écrit la tentative validée ────────────────────────────────────
       const attemptRef = db.collection('attempts').doc();
-      const isBestTime = await updateLeaderboard(uid, raceId, season, officialTimeSeconds);
+      const raceName = (race.title as string) ?? raceId;
+      const isBestTime = await updateLeaderboard(uid, raceId, raceName, season, officialTimeSeconds);
 
       await attemptRef.set({
         userId: uid,
