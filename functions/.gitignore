@@ -1,0 +1,5 @@
+lib/
+node_modules/
+.env
+.runtimeconfig.json
+service-account*.json

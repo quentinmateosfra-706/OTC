@@ -34,12 +34,19 @@ remplira ensemble au fil des phases — rien à faire pour l'instant :
 | Clé | Quand | Où la trouver |
 |---|---|---|
 | `EXPO_PUBLIC_FIREBASE_*` | Phase 3 (Auth) | Console Firebase → Paramètres du projet |
-| `EXPO_PUBLIC_STRAVA_CLIENT_ID` | Phase 4 | developers.strava.com |
+| `EXPO_PUBLIC_STRAVA_CLIENT_ID` | Phase 4 | developers.strava.com → ton app → "My API Application" |
 | `EXPO_PUBLIC_MAPBOX_TOKEN` | Phase 5 | Compte Mapbox → Access tokens |
 | `EXPO_PUBLIC_REVENUECAT_IOS_KEY` | Phase 6 | Tableau de bord RevenueCat |
 
 Les **vrais secrets** (Strava `client_secret`, clés de paiement) ne vont
 **jamais** dans l'app : ils vivent côté Cloud Functions (Phase 4+).
+
+## Configuration Strava (Phase 4)
+
+Sur [developers.strava.com](https://developers.strava.com) → ton app :
+- **Authorization Callback Domain** : `localhost` (dev) et `otc.app` (prod)
+- **Redirect URI à enregistrer** : `otc://strava-callback`
+- Côté Functions (secrets Firebase) : voir `functions/.env.example`
 
 ## Structure du projet
 
@@ -52,7 +59,7 @@ les composants d'écran.
 - [x] **Phase 1 — Setup** : projet Expo, TypeScript, thème, config Firebase, types, règles de sécurité
 - [x] **Phase 2 — Navigation** : aiguillage Auth/App, AuthStack, AppStack, MainTabs
 - [x] **Phase 3 — Auth** : email/Apple/Google, profil coureur, décharge de responsabilité horodatée
-- [ ] Phase 4 — Connexion Strava
+- [x] **Phase 4 — Strava** : OAuth PKCE (expo-auth-session), échange de code + tokens chiffrés AES-256-GCM côté Functions, refresh automatique, récupération activités
 - [ ] Phase 5 — Catalogue de courses
 - [ ] Phase 6 — Achat
 - [ ] Phase 7 — Import activité + validation
