@@ -60,6 +60,7 @@ les composants d'écran.
 - [x] **Phase 2 — Navigation** : aiguillage Auth/App, AuthStack, AppStack, MainTabs
 - [x] **Phase 3 — Auth** : email/Apple/Google, profil coureur, décharge de responsabilité horodatée
 - [x] **Phase 4 — Strava** : OAuth PKCE (expo-auth-session), échange de code + tokens chiffrés AES-256-GCM côté Functions, refresh automatique, récupération activités
+- [x] **Phase 5 — Catalogue** : liste filtrée par distance/région, pagination Firestore, RaceCard, fiche course avec carte Mapbox + profil altimétrique SVG + checkpoints
 - [ ] Phase 5 — Catalogue de courses
 - [ ] Phase 6 — Achat
 - [ ] Phase 7 — Import activité + validation

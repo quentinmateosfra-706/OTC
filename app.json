@@ -16,7 +16,13 @@
       "package": "com.otc.app",
       "minSdkVersion": 26
     },
-    "plugins": ["expo-font"],
+    "plugins": [
+      "expo-font",
+      [
+        "@rnmapbox/maps",
+        { "RNMapboxMapsDownloadToken": "TODO-MAPBOX-SECRET-TOKEN" }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "TODO-EAS-PROJECT-ID"

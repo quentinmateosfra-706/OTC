@@ -27,7 +27,9 @@
     "@react-navigation/native-stack": "^6.11.0",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "zustand": "^4.5.5",
-    "firebase": "^10.13.0"
+    "firebase": "^10.13.0",
+    "react-native-svg": "15.2.0",
+    "@rnmapbox/maps": "^10.1.26"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
