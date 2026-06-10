@@ -9,6 +9,7 @@ import { MainTabs } from './MainTabs';
 import { RaceDetailScreen } from '@/screens/catalog/RaceDetailScreen';
 import { SafetyBriefingScreen } from '@/screens/attempt/SafetyBriefingScreen';
 import { ImportActivityScreen } from '@/screens/attempt/ImportActivityScreen';
+import { AttemptResultScreen } from '@/screens/attempt/AttemptResultScreen';
 import { RaceLeaderboardScreen } from '@/screens/leaderboard/RaceLeaderboardScreen';
 import { StravaConnectScreen } from '@/screens/settings/StravaConnectScreen';
 import { PurchaseScreen } from '@/screens/purchase/PurchaseScreen';
@@ -43,6 +44,11 @@ export function AppStack() {
         name="ImportActivity"
         component={ImportActivityScreen}
         options={{ title: 'Importer' }}
+      />
+      <Stack.Screen
+        name="AttemptResult"
+        component={AttemptResultScreen}
+        options={{ title: 'Résultat', headerBackVisible: false }}
       />
       <Stack.Screen
         name="RaceLeaderboard"

@@ -62,6 +62,7 @@ les composants d'écran.
 - [x] **Phase 4 — Strava** : OAuth PKCE (expo-auth-session), échange de code + tokens chiffrés AES-256-GCM côté Functions, refresh automatique, récupération activités
 - [x] **Phase 5 — Catalogue** : liste filtrée par distance/région, pagination Firestore, RaceCard, fiche course avec carte Mapbox + profil altimétrique SVG + checkpoints
 - [x] **Phase 6 — Achat** : RevenueCat (iOS in-app), Stripe Checkout (web), webhooks Functions, bibliothèque du coureur, abonnements mensuel/annuel
+- [x] **Phase 7 — Validation** : SafetyBriefing (checklist adaptative), ImportActivity (sélection Strava), validateAttempt (Fréchet + corridor 30m + checkpoints + sens + anti-triche), AttemptResult
 - [ ] Phase 5 — Catalogue de courses
 - [ ] Phase 6 — Achat
 - [ ] Phase 7 — Import activité + validation

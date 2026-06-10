@@ -27,6 +27,7 @@ export type AppStackParamList = {
   Purchase: { raceId: string };
   SafetyBriefing: { raceId: string };
   ImportActivity: { raceId: string };
+  AttemptResult: { attemptId: string };
   RaceLeaderboard: { raceId: string; season: string };
   StravaConnect: undefined;
 };
