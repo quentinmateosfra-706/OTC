@@ -67,5 +67,5 @@ les composants d'écran.
 - [ ] Phase 6 — Achat
 - [ ] Phase 7 — Import activité + validation
 - [ ] Phase 8 — Classement
-- [ ] Phase 9 — Admin
+- [x] **Phase 9 — Admin** : back-office Next.js (courses, utilisateurs, tentatives, revenus)
 - [ ] Phase 10 — Tests
