@@ -77,7 +77,7 @@ export function DisclaimerScreen() {
       ]);
       // Décharge acceptée : onAuthStateChanged va rediriger vers l'AppStack.
     } catch {
-      Alert.alert('Erreur', 'Impossible d'enregistrer ton accord. Réessaie.');
+      Alert.alert('Erreur', "Impossible d'enregistrer ton accord. Réessaie.");
     } finally {
       setLoading(false);
     }

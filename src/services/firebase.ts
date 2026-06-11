@@ -9,20 +9,27 @@
  * factices plutôt que de planter.
  */
 import { initializeApp, getApps, getApp } from 'firebase/app';
-// @ts-expect-error — getReactNativePersistence n'est pas exporté dans les types
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { getFunctions } from 'firebase/functions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { config } from '@/constants/config';
+import { config, isFirebaseConfigured } from '@/constants/config';
+import { Platform } from 'react-native';
 
-// Évite la double initialisation lors du Fast Refresh.
-const app = getApps().length === 0 ? initializeApp(config.firebase) : getApp();
+const DEMO_CONFIG = { apiKey: '', authDomain: '', projectId: 'demo', storageBucket: '', messagingSenderId: '', appId: '' };
+const app = getApps().length === 0 ? initializeApp(isFirebaseConfigured ? config.firebase : DEMO_CONFIG) : getApp();
 
-export const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage),
-});
+function buildAuth() {
+  if (!isFirebaseConfigured) return null as never;
+  if (Platform.OS === 'web') {
+    const { getAuth } = require('firebase/auth');
+    return getAuth(app);
+  }
+  const AsyncStorage = require('@react-native-async-storage/async-storage').default;
+  const { initializeAuth, getReactNativePersistence } = require('firebase/auth');
+  return initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
+}
+
+export const auth = buildAuth();
 
 export const db = getFirestore(app);
 export const storage = getStorage(app);

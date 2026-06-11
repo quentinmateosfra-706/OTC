@@ -28,7 +28,7 @@ export function StravaConnectScreen() {
     if (!firebaseUser) return;
     Alert.alert(
       'Déconnecter Strava',
-      'Tu ne pourras plus importer d'activités ni valider de parcours tant que Strava n'est pas reconnecté.',
+      "Tu ne pourras plus importer d'activités ni valider de parcours tant que Strava n'est pas reconnecté.",
       [
         { text: 'Annuler', style: 'cancel' },
         {

@@ -21,19 +21,25 @@ export function useAuthListener(): void {
 
     let unsubscribe = () => {};
     void (async () => {
-      const { onAuthStateChanged } = await import('firebase/auth');
-      const { auth } = await import('@/services/firebase');
+      try {
+        const { onAuthStateChanged } = await import('firebase/auth');
+        const { auth } = await import('@/services/firebase');
 
-      unsubscribe = onAuthStateChanged(auth, async (user) => {
-        setFirebaseUser(user);
-        if (user) {
-          const profile = await fetchUserProfile(user.uid);
-          setProfile(profile);
-        } else {
-          setProfile(null);
-        }
+        unsubscribe = onAuthStateChanged(auth, async (user) => {
+          setFirebaseUser(user);
+          if (user) {
+            const profile = await fetchUserProfile(user.uid);
+            setProfile(profile);
+          } else {
+            setProfile(null);
+          }
+          setInitializing(false);
+        }, () => {
+          setInitializing(false);
+        });
+      } catch {
         setInitializing(false);
-      });
+      }
     })();
 
     return () => unsubscribe();

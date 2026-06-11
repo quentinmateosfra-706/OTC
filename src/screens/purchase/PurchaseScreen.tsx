@@ -75,7 +75,7 @@ export function PurchaseScreen() {
 
   async function handleStripe(type: 'race' | 'monthly' | 'annual') {
     if (!isFirebaseConfigured || !firebaseUser) {
-      Alert.alert('Non connecté', 'Connecte-toi d'abord.');
+      Alert.alert('Non connecté', "Connecte-toi d'abord.");
       return;
     }
     setLoadingStripe(type);
@@ -86,7 +86,7 @@ export function PurchaseScreen() {
       Alert.alert(
         'Paiement confirmé ✓',
         'Ta course est maintenant disponible dans ta bibliothèque. '
-        + 'Si elle n'apparaît pas immédiatement, tire vers le bas pour rafraîchir.',
+        + "Si elle n'apparaît pas immédiatement, tire vers le bas pour rafraîchir.",
         [{ text: 'Voir ma bibliothèque', onPress: () => navigation.navigate('Tabs', { screen: 'Library' }) }],
       );
     } else if (result === 'error') {
@@ -138,7 +138,7 @@ export function PurchaseScreen() {
             onPress={() =>
               Alert.alert(
                 'App Store',
-                'L'achat in-app nécessite un dev build EAS. En attendant, utilise le paiement web ci-dessous.',
+                "L'achat in-app nécessite un dev build EAS. En attendant, utilise le paiement web ci-dessous.",
               )
             }
             variant="secondary"

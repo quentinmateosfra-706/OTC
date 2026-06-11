@@ -48,22 +48,22 @@ function buildChecklist(race: Race | null): CheckItem[] {
     {
       key: 'water',
       icon: 'water-outline',
-      label: 'J'emporte suffisamment d'eau et de boisson pour toute la durée.',
+      label: "J'emporte suffisamment d'eau et de boisson pour toute la durée.",
     },
     {
       key: 'phone',
       icon: 'phone-portrait-outline',
-      label: 'Mon téléphone est chargé et j'ai enregistré le 112 et un numéro de proche.',
+      label: "Mon téléphone est chargé et j'ai enregistré le 112 et un numéro de proche.",
     },
     {
       key: 'close',
       icon: 'person-outline',
-      label: 'J'ai prévenu un proche de mon départ, de mon itinéraire et de mon heure de retour prévue.',
+      label: "J'ai prévenu un proche de mon départ, de mon itinéraire et de mon heure de retour prévue.",
     },
     {
       key: 'meteo',
       icon: 'partly-sunny-outline',
-      label: 'J'ai vérifié les prévisions météo — aucune alerte en cours sur ce secteur.',
+      label: "J'ai vérifié les prévisions météo — aucune alerte en cours sur ce secteur.",
     },
   ];
 
@@ -71,12 +71,12 @@ function buildChecklist(race: Race | null): CheckItem[] {
     items.push({
       key: 'food',
       icon: 'nutrition-outline',
-      label: 'J'emporte une nutrition suffisante (barres, gels, nourriture solide).',
+      label: "J'emporte une nutrition suffisante (barres, gels, nourriture solide).",
     });
     items.push({
       key: 'survival',
       icon: 'shield-outline',
-      label: 'J'ai une couverture de survie et des vêtements chauds en cas d'hypothermie.',
+      label: "J'ai une couverture de survie et des vêtements chauds en cas d'hypothermie.",
     });
   }
 
@@ -84,7 +84,7 @@ function buildChecklist(race: Race | null): CheckItem[] {
     items.push({
       key: 'headlamp',
       icon: 'flashlight-outline',
-      label: 'Ma frontale est chargée et j'ai des piles de rechange (risque de courir de nuit).',
+      label: "Ma frontale est chargée et j'ai des piles de rechange (risque de courir de nuit).",
     });
   }
 
@@ -92,7 +92,7 @@ function buildChecklist(race: Race | null): CheckItem[] {
     key: 'solo',
     icon: 'warning-outline',
     label:
-      'Je comprends que ce parcours n'est pas balisé, sans ravitaillement ni assistance. '
+      "Je comprends que ce parcours n'est pas balisé, sans ravitaillement ni assistance. "
       + 'Je cours sous ma seule responsabilité.',
   });
 
