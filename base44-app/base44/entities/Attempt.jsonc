@@ -1,0 +1,113 @@
+{
+  "name": "Attempt",
+  "properties": {
+    "activity_date": {
+      "description": "Date de l'activit\u00e9 Strava",
+      "format": "date-time",
+      "type": "string"
+    },
+    "avg_speed_kmh": {
+      "description": "Vitesse moyenne km/h (anti-triche)",
+      "type": "number"
+    },
+    "checkpoints_missed": {
+      "description": "Num\u00e9ros des checkpoints manqu\u00e9s",
+      "items": {
+        "type": "number"
+      },
+      "type": "array"
+    },
+    "checkpoints_total": {
+      "description": "Nombre total de checkpoints requis",
+      "type": "number"
+    },
+    "checkpoints_validated": {
+      "description": "Nombre de checkpoints valid\u00e9s dans l'ordre",
+      "type": "number"
+    },
+    "distance_km": {
+      "description": "Distance de l'activit\u00e9 import\u00e9e",
+      "type": "number"
+    },
+    "elapsed_time_s": {
+      "description": "Temps total \u00e9coul\u00e9 en secondes (temps officiel)",
+      "type": "number"
+    },
+    "elevation_gain_m": {
+      "description": "D+ de l'activit\u00e9 import\u00e9e",
+      "type": "number"
+    },
+    "match_pct": {
+      "description": "Pourcentage de correspondance avec la trace officielle (seuil 85%)",
+      "type": "number"
+    },
+    "moving_time_s": {
+      "description": "Temps en mouvement en secondes",
+      "type": "number"
+    },
+    "race_id": {
+      "description": "ID de la course tent\u00e9e",
+      "type": "string"
+    },
+    "rejection_reason": {
+      "description": "Motif de rejet expliqu\u00e9 au coureur",
+      "type": "string"
+    },
+    "runner_id": {
+      "description": "ID utilisateur du coureur (renseign\u00e9 aussi pour les imports automatiques)",
+      "type": "string"
+    },
+    "safety_checklist_accepted_at": {
+      "description": "Horodatage d'acceptation du rappel s\u00e9curit\u00e9 pr\u00e9-tentative",
+      "format": "date-time",
+      "type": "string"
+    },
+    "season": {
+      "description": "Saison de l'\u00e9dition",
+      "type": "string"
+    },
+    "source": {
+      "description": "Origine de la tentative",
+      "enum": [
+        "manual",
+        "auto"
+      ],
+      "type": "string"
+    },
+    "status": {
+      "description": "R\u00e9sultat de la validation",
+      "enum": [
+        "pending",
+        "validated",
+        "rejected"
+      ],
+      "type": "string"
+    },
+    "strava_activity_id": {
+      "description": "ID de l'activit\u00e9 Strava import\u00e9e",
+      "type": "string"
+    }
+  },
+  "required": [
+    "race_id",
+    "strava_activity_id",
+    "status"
+  ],
+  "type": "object",
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

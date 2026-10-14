@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* OTC — Trace Solitaire palette */
+    --background: 215 28% 8%;
+    --foreground: 40 30% 96%;
+    --card: 215 24% 11%;
+    --card-foreground: 40 30% 96%;
+    --popover: 215 24% 11%;
+    --popover-foreground: 40 30% 96%;
+    --primary: 43 86% 63%;
+    --primary-foreground: 215 28% 8%;
+    --secondary: 215 18% 16%;
+    --secondary-foreground: 40 20% 90%;
+    --muted: 215 16% 18%;
+    --muted-foreground: 215 12% 62%;
+    --accent: 43 86% 63%;
+    --accent-foreground: 215 28% 8%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 40 30% 96%;
+    --border: 215 18% 20%;
+    --input: 215 18% 20%;
+    --ring: 43 86% 63%;
+    --chart-1: 43 86% 63%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.75rem;
+    --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Fraunces', ui-serif, Georgia, serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 215 28% 6%;
+    --sidebar-foreground: 40 20% 90%;
+    --sidebar-primary: 43 86% 63%;
+    --sidebar-primary-foreground: 215 28% 8%;
+    --sidebar-accent: 215 18% 16%;
+    --sidebar-accent-foreground: 40 20% 90%;
+    --sidebar-border: 215 18% 20%;
+    --sidebar-ring: 43 86% 63%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-heading { font-family: var(--font-heading); }
+  .text-balance { text-wrap: balance; }
+  /* Topographic contour lines background */
+  .topo-lines {
+    background-image:
+      radial-gradient(circle at 50% 120%, transparent 38%, hsl(var(--border) / 0.35) 38.5%, transparent 39.2%),
+      radial-gradient(circle at 50% 120%, transparent 46%, hsl(var(--border) / 0.25) 46.5%, transparent 47.2%),
+      radial-gradient(circle at 50% 120%, transparent 54%, hsl(var(--border) / 0.18) 54.5%, transparent 55.2%),
+      radial-gradient(circle at 50% 120%, transparent 62%, hsl(var(--border) / 0.12) 62.5%, transparent 63.2%);
+  }
+  .grain {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.04) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+}

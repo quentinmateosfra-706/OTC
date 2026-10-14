@@ -1,0 +1,176 @@
+{
+  "name": "Race",
+  "properties": {
+    "altitude_max_m": {
+      "description": "Altitude maximale en m\u00e8tres",
+      "type": "number"
+    },
+    "altitude_min_m": {
+      "description": "Altitude minimale en m\u00e8tres",
+      "type": "number"
+    },
+    "checkpoints": {
+      "description": "Checkpoints virtuels ordonn\u00e9s (validation 100% dans l'ordre)",
+      "items": {
+        "properties": {
+          "alt": {
+            "type": "number"
+          },
+          "km": {
+            "type": "number"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "lon": {
+            "type": "number"
+          },
+          "num": {
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "Description du parcours",
+      "type": "string"
+    },
+    "distance_category": {
+      "description": "Cat\u00e9gorie tarifaire selon distance",
+      "enum": [
+        "decouverte",
+        "court",
+        "moyen",
+        "long",
+        "ultra"
+      ],
+      "type": "string"
+    },
+    "distance_km": {
+      "description": "Distance totale en kilom\u00e8tres",
+      "type": "number"
+    },
+    "elevation_gain_m": {
+      "description": "D\u00e9nivel\u00e9 positif en m\u00e8tres (liss\u00e9)",
+      "type": "number"
+    },
+    "elevation_loss_m": {
+      "description": "D\u00e9nivel\u00e9 n\u00e9gatif en m\u00e8tres (liss\u00e9)",
+      "type": "number"
+    },
+    "gpx_file_url": {
+      "description": "URL du fichier GPX complet (upload via l'app)",
+      "type": "string"
+    },
+    "gpx_points_count": {
+      "description": "Nombre de points GPS de la trace compl\u00e8te",
+      "type": "number"
+    },
+    "name": {
+      "description": "Nom de la course",
+      "type": "string"
+    },
+    "official_event_date": {
+      "description": "Date de la course officielle",
+      "format": "date",
+      "type": "string"
+    },
+    "organizer_share_pct": {
+      "description": "Pourcentage revers\u00e9 \u00e0 l'organisateur (d\u00e9faut 30)",
+      "type": "number"
+    },
+    "price_eur": {
+      "description": "Prix d'achat unitaire en euros",
+      "type": "number"
+    },
+    "region": {
+      "description": "R\u00e9gion / massif",
+      "type": "string"
+    },
+    "route_type": {
+      "description": "Type de parcours",
+      "enum": [
+        "boucle",
+        "aller_simple",
+        "aller_retour"
+      ],
+      "type": "string"
+    },
+    "season": {
+      "description": "Saison / \u00e9dition (ex. 2026)",
+      "type": "string"
+    },
+    "start_point": {
+      "description": "Point de d\u00e9part {lat, lon, alt}",
+      "properties": {
+        "alt": {
+          "type": "number"
+        },
+        "lat": {
+          "type": "number"
+        },
+        "lon": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "status": {
+      "description": "Statut de l'\u00e9dition",
+      "enum": [
+        "draft",
+        "active",
+        "archived"
+      ],
+      "type": "string"
+    },
+    "trace_preview": {
+      "description": "Trace simplifi\u00e9e [lat, lon, alt] pour affichage carte (~100 points)",
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "type": "array"
+    },
+    "window_end": {
+      "description": "Fermeture de la fen\u00eatre (J-7 avant l'\u00e9dition suivante)",
+      "format": "date",
+      "type": "string"
+    },
+    "window_start": {
+      "description": "Ouverture de la fen\u00eatre de tentative (J+7 apr\u00e8s l'\u00e9v\u00e9nement)",
+      "format": "date",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "distance_km",
+    "elevation_gain_m",
+    "price_eur",
+    "season",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  },
+  "type": "object"
+}

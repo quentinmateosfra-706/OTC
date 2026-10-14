@@ -1,0 +1,104 @@
+{
+  "name": "RunnerProfile",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "Nom complet du coureur"
+    },
+    "club": {
+      "type": "string",
+      "description": "Club ou affiliation (optionnel)"
+    },
+    "birth_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date de naissance"
+    },
+    "sex": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female",
+        "other"
+      ],
+      "description": "Sexe"
+    },
+    "city": {
+      "type": "string",
+      "description": "Ville de r\u00e9sidence"
+    },
+    "weight_kg": {
+      "type": "number",
+      "description": "Poids en kilogrammes (optionnel)"
+    },
+    "height_cm": {
+      "type": "number",
+      "description": "Taille en centim\u00e8tres (optionnel)"
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "decouverte",
+        "regulier",
+        "confirme",
+        "expert",
+        "elite"
+      ],
+      "description": "Niveau de pratique"
+    },
+    "waiver_accepted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Horodatage d'acceptation de la d\u00e9charge de responsabilit\u00e9"
+    }
+  },
+  "required": [
+    "full_name",
+    "birth_date",
+    "sex",
+    "city",
+    "waiver_accepted_at"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

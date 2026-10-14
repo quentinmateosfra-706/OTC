@@ -1,0 +1,94 @@
+{
+  "name": "Purchase",
+  "properties": {
+    "amount_eur": {
+      "description": "Montant pay\u00e9 en euros",
+      "type": "number"
+    },
+    "organizer_share_eur": {
+      "description": "Part revers\u00e9e \u00e0 l'organisateur",
+      "type": "number"
+    },
+    "payment_provider": {
+      "description": "Canal de paiement",
+      "enum": [
+        "revenuecat_ios",
+        "revenuecat_android",
+        "stripe_web",
+        "simulation"
+      ],
+      "type": "string"
+    },
+    "purchase_date": {
+      "description": "Date d'achat",
+      "format": "date-time",
+      "type": "string"
+    },
+    "purchase_type": {
+      "description": "Type d'achat",
+      "enum": [
+        "unit",
+        "pack",
+        "pass_monthly",
+        "pass_annual"
+      ],
+      "type": "string"
+    },
+    "race_id": {
+      "description": "ID de la course achet\u00e9e (vide pour un pass)",
+      "type": "string"
+    },
+    "season": {
+      "description": "Saison concern\u00e9e",
+      "type": "string"
+    },
+    "status": {
+      "description": "Statut de l'achat",
+      "enum": [
+        "active",
+        "refunded",
+        "expired"
+      ],
+      "type": "string"
+    },
+    "waiver_accepted_at": {
+      "description": "Horodatage d'acceptation de la d\u00e9charge de responsabilit\u00e9",
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "purchase_type",
+    "amount_eur",
+    "purchase_date",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  },
+  "type": "object"
+}

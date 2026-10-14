@@ -1,0 +1,59 @@
+{
+  "auth": "oauth",
+  "tools": {
+    "functions": [
+      {
+        "name": "strava_connect",
+        "title": "Strava connection",
+        "description": "Manage the signed-in user's Strava connection. Use action 'auth_url' to get the OAuth authorization URL to send the user to (requires redirect_uri); action 'connect' to exchange a returned OAuth code for tokens and store the connection (requires code + redirect_uri); action 'status' to check if Strava is connected; action 'disconnect' to remove the connection.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["auth_url", "connect", "status", "disconnect"],
+              "description": "What to do. Defaults to auth_url when no code is provided."
+            },
+            "redirect_uri": {
+              "type": "string",
+              "description": "The exact redirect URI registered in the Strava app settings, same-origin absolute path. Required for auth_url and connect."
+            },
+            "code": {
+              "type": "string",
+              "description": "The OAuth authorization code returned by Strava to the redirect URI. Required for connect."
+            }
+          },
+          "required": ["action"]
+        },
+        "handler": "stravaConnect",
+        "annotations": { "read_only_hint": false, "destructive_hint": false, "idempotent_hint": false }
+      },
+      {
+        "name": "strava_activities",
+        "title": "Strava activities",
+        "description": "Access the signed-in user's Strava activities. Use action 'list' to fetch the 30 most recent activities (distance, duration, elevation, GPS availability); action 'gpx' to reconstruct and return a GPX trace for one activity (requires activity_id, optional name). Requires a connected Strava account.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["list", "gpx"],
+              "description": "What to do. Defaults to list."
+            },
+            "activity_id": {
+              "type": "string",
+              "description": "Strava activity id. Required for gpx."
+            },
+            "name": {
+              "type": "string",
+              "description": "Optional name to embed in the generated GPX file."
+            }
+          },
+          "required": ["action"]
+        },
+        "handler": "stravaActivities",
+        "annotations": { "read_only_hint": true, "destructive_hint": false, "idempotent_hint": true }
+      }
+    ]
+  }
+}

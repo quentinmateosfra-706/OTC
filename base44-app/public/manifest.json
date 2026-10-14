@@ -1,0 +1,20 @@
+{
+  "name": "OTC — Off Trail Challenge",
+  "short_name": "OTC",
+  "description": "Le trail en totale autonomie. Pas de balisage, pas de ravito, pas de spectateurs.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "https://media.base44.com/images/public/user_6a9bc44dd5b274433df43734/6899155a2_83CF55CA-B77D-41D6-A37F-A4E8DCCB4267.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
