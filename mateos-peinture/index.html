@@ -164,11 +164,11 @@ nav.main .btn { padding: 12px 20px; white-space: nowrap; }
 
 .paint-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(36px, 5vw, 72px); align-items: start; margin-top: clamp(40px, 5vw, 64px); }
 .paint-grid > * { min-width: 0; }
-.room { background: var(--ground); padding: clamp(14px, 2vw, 20px); border-radius: 4px; }
+.room { background: var(--tone); padding: clamp(14px, 2vw, 20px); border-radius: 4px; }
 .room svg { display: block; width: 100%; height: auto; }
 .room .wallfill { transition: fill .6s var(--ease-out); }
 .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 14px; }
-.swatch { appearance: none; border: 0; background: var(--tone); border-radius: 4px; padding: 0 0 10px; cursor: pointer; text-align: left; color: var(--ink); overflow: hidden; transition: transform .2s var(--ease-out), background-color .2s ease; }
+.swatch { appearance: none; border: 0; background: var(--ground); border-radius: 4px; padding: 0 0 10px; cursor: pointer; text-align: left; color: var(--ink); overflow: hidden; transition: transform .2s var(--ease-out), background-color .2s ease; }
 .swatch:hover { transform: translateY(-2px); }
 .swatch:active { transform: scale(.96); }
 .swatch .chipc { display: block; height: 40px; margin-bottom: 8px; }
@@ -230,6 +230,36 @@ footer .meta { display: flex; flex-wrap: wrap; justify-content: space-between; g
 footer .meta a { text-decoration: none; }
 footer .meta a:hover { color: #ffffff; }
 
+/* Simulateur */
+.sim { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 48px); margin-top: clamp(40px, 5vw, 64px); align-items: stretch; }
+.sim > * { min-width: 0; }
+.sim-in { background: var(--ground); padding: clamp(22px, 4vw, 40px); border-radius: 4px; display: grid; gap: 28px; align-content: start; }
+.sim-row { display: grid; gap: 10px; }
+.sim-row > label, .sim-row > .lbl { font-weight: 700; font-size: 1.02rem; }
+.surf { display: flex; align-items: center; gap: 16px; }
+.surf input[type=range] { flex: 1; min-width: 0; accent-color: var(--blue); height: 28px; }
+.surf .num { display: flex; align-items: baseline; gap: 6px; }
+.surf .num input { width: 7ch; font: 800 1.6rem var(--f-display); color: var(--ink); border: 0; background: var(--tone); border-radius: 4px; padding: 6px 10px; text-align: right; font-variant-numeric: tabular-nums; }
+.seg { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg button { appearance: none; border: 0; background: var(--tone); color: var(--ink); font: 600 .98rem var(--f-body); padding: 11px 16px; border-radius: 999px; cursor: pointer; transition: background-color .2s ease, color .2s ease, transform .15s ease; text-align: left; }
+.seg button:hover { background: var(--tone-2); }
+.seg button:active { transform: scale(.97); }
+.seg button[aria-pressed="true"] { background: var(--slate); color: #ffffff; }
+.seg button small { display: block; font-weight: 400; font-size: .8rem; opacity: .8; }
+.euro { display: flex; align-items: center; gap: 8px; }
+.euro input { font: inherit; font-size: 1.05rem; width: 100%; max-width: 220px; border: 1px solid var(--tone-2); border-radius: 4px; padding: 12px 14px; }
+.euro input:focus { outline: none; border-color: var(--blue); }
+.sim-out { background: var(--blue); color: var(--on-blue); padding: clamp(22px, 4vw, 40px); border-radius: 4px; display: grid; gap: 26px; align-content: start; }
+.res { display: grid; gap: 4px; }
+.res .v { font-family: var(--f-display); font-weight: 800; font-size: clamp(2.2rem, 4.4vw, 3.4rem); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.res .d { font-size: 1rem; opacity: .9; }
+.res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 24px; }
+.sim-out .note { font-size: .9rem; opacity: .85; }
+.sim-out .btn { justify-self: start; }
+@media (max-width: 860px) { .sim { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .res-grid { grid-template-columns: 1fr; } }
+.form-ok.err { background: #fde9e4; }
+
 /* Apparitions : le contenu reste visible sans script (.js n'est posée que si le script tourne) */
 .js [data-reveal] > * { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
 .js [data-reveal].in > * { opacity: 1; transform: none; }
@@ -259,6 +289,7 @@ footer .meta a:hover { color: #ffffff; }
     </a>
     <nav class="main" aria-label="Navigation principale">
       <a href="#coolroofing">Cool roofing</a>
+      <a href="#simulateur">Simulateur</a>
       <a href="#fiche">Fiche technique</a>
       <a href="#interieur">Peinture intérieure</a>
       <a href="#avis">Avis</a>
@@ -411,7 +442,59 @@ footer .meta a:hover { color: #ffffff; }
     </div>
   </section>
 
-  <section id="interieur" class="on-tone">
+  <section id="simulateur" class="on-tone">
+    <div class="wrap">
+      <div class="split" data-reveal>
+        <h2>Simulez vos économies.</h2>
+        <p class="lead" style="max-width:48ch">Indiquez la surface et le type de votre toiture. L'estimation se met à jour en direct.</p>
+      </div>
+      <div class="sim">
+        <form class="sim-in" id="simform" onsubmit="return false" data-reveal>
+          <div class="sim-row">
+            <label for="s-surf">Surface de toiture</label>
+            <div class="surf">
+              <input id="s-range" type="range" min="50" max="10000" step="50" value="1000" aria-label="Surface de toiture en mètres carrés">
+              <span class="num"><input id="s-surf" type="text" inputmode="numeric" value="1000" aria-describedby="s-unit"><span id="s-unit">m²</span></span>
+            </div>
+          </div>
+          <div class="sim-row">
+            <span class="lbl" id="s-sup-l">Type de toiture</span>
+            <div class="seg" role="group" aria-labelledby="s-sup-l" id="s-sup">
+              <button type="button" data-v="lisse" aria-pressed="true">Lisse<small>bac acier, zinc, polycarbonate</small></button>
+              <button type="button" data-v="rugueux" aria-pressed="false">Rugueuse<small>membrane, béton, tuiles, fibrociment</small></button>
+            </div>
+          </div>
+          <div class="sim-row">
+            <span class="lbl" id="s-clim-l">Le bâtiment est-il climatisé ?</span>
+            <div class="seg" role="group" aria-labelledby="s-clim-l" id="s-clim">
+              <button type="button" data-v="oui" aria-pressed="true">Oui</button>
+              <button type="button" data-v="non" aria-pressed="false">Non</button>
+            </div>
+          </div>
+          <div class="sim-row" id="s-bill-row">
+            <label for="s-bill">Facture de climatisation par an (facultatif)</label>
+            <div class="euro"><input id="s-bill" type="text" inputmode="numeric" placeholder="Ex. : 10 000"><span>€</span></div>
+          </div>
+        </form>
+        <div class="sim-out" aria-live="polite" data-reveal>
+          <div class="res">
+            <span class="v" id="r-temp">−5 °C</span>
+            <span class="d" id="r-temp-d">à l'intérieur en moyenne, jusqu'à −8 °C en pic</span>
+          </div>
+          <div class="res-grid">
+            <div class="res"><span class="v" id="r-eco">–</span><span class="d" id="r-eco-d">d'économie de climatisation par an</span></div>
+            <div class="res"><span class="v" id="r-paint">333 L</span><span class="d" id="r-paint-d">de peinture pour 2 couches</span></div>
+            <div class="res"><span class="v">85 %</span><span class="d">du rayonnement solaire renvoyé</span></div>
+            <div class="res"><span class="v">2 à 5 ans</span><span class="d">de retour sur investissement</span></div>
+          </div>
+          <p class="note">Estimation indicative tirée de la fiche technique Enercool et des résultats mesurés sur saison chaude. Le chiffrage exact se fait après la visite.</p>
+          <a class="btn btn-white" href="#contact" id="s-cta">Recevoir une étude gratuite</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="interieur">
     <div class="wrap">
       <div class="split" data-reveal>
         <h2>Et à l'intérieur, des finitions nettes.</h2>
@@ -539,6 +622,7 @@ footer .meta a:hover { color: #ffffff; }
         </div>
         <div class="field"><label for="f-msg">Votre projet</label><textarea id="f-msg" name="msg" placeholder="Ex. : entrepôt avec toiture en bac acier, forte chaleur l'été au dernier étage."></textarea></div>
         <button class="btn btn-primary" type="submit" style="justify-self:start">Envoyer ma demande</button>
+        <input type="hidden" id="f-est" name="estimation">
         <p class="form-note">Vos informations servent uniquement à vous recontacter.</p>
         <div class="form-ok" id="form-ok" hidden></div>
       </form>
@@ -617,18 +701,89 @@ footer .meta a:hover { color: #ffffff; }
     });
   });
 
+  // Simulateur
+  var fr = new Intl.NumberFormat('fr-FR');
+  var sim = { surf: 1000, sup: 'lisse', clim: 'oui' };
+  var sRange = document.getElementById('s-range'), sSurf = document.getElementById('s-surf'), sBill = document.getElementById('s-bill');
+  function num(v) { var n = parseInt(String(v).replace(/[^\d]/g, ''), 10); return isNaN(n) ? 0 : n; }
+  function segs(id, key) {
+    var bs = document.querySelectorAll('#' + id + ' button');
+    bs.forEach(function (b) {
+      b.addEventListener('click', function () {
+        sim[key] = b.dataset.v;
+        bs.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+        compute();
+      });
+    });
+  }
+  segs('s-sup', 'sup'); segs('s-clim', 'clim');
+  sRange.addEventListener('input', function () { sim.surf = num(sRange.value); sSurf.value = fr.format(sim.surf); compute(); });
+  sSurf.addEventListener('input', function () { sim.surf = num(sSurf.value); sRange.value = Math.min(10000, Math.max(50, sim.surf)); compute(); });
+  sSurf.addEventListener('blur', function () { sSurf.value = fr.format(sim.surf); });
+  sBill.addEventListener('input', compute);
+  sBill.addEventListener('blur', function () { var b = num(sBill.value); sBill.value = b ? fr.format(b) : ''; });
+  var summary = '';
+  function compute() {
+    var surf = sim.surf;
+    var perM2 = sim.sup === 'lisse' ? 1 / 3 : 0.5;  // 2 couches : 5 L = 15 m² (lisse), 5 L = 10 m² (rugueux)
+    var litres = Math.ceil(surf * perM2);
+    var seaux = Math.ceil(litres / 17);
+    document.getElementById('r-paint').textContent = fr.format(litres) + ' L';
+    document.getElementById('r-paint-d').textContent = 'de peinture pour 2 couches, soit ' + seaux + ' seau' + (seaux > 1 ? 'x' : '') + ' de 17 L';
+    var clim = sim.clim === 'oui';
+    document.getElementById('s-bill-row').hidden = !clim;
+    document.getElementById('r-temp-d').textContent = clim ? "à l'intérieur en moyenne, jusqu'à −8 °C en pic" : "à l'intérieur en moyenne : les étages sous toiture redeviennent vivables";
+    var bill = num(sBill.value), eco = document.getElementById('r-eco'), ecoD = document.getElementById('r-eco-d');
+    if (!clim) { eco.textContent = 'Confort'; ecoD.textContent = "d'été retrouvé sans installer de climatisation"; }
+    else if (bill > 0) { eco.textContent = fr.format(Math.round(bill * 0.29)) + ' €'; ecoD.textContent = "d'économie de climatisation par an (−29 %)"; }
+    else { eco.textContent = '−29 %'; ecoD.textContent = 'sur la facture de climatisation. Indiquez-la pour voir le montant'; }
+    summary = 'Simulateur : ' + fr.format(surf) + ' m², toiture ' + (sim.sup === 'lisse' ? 'lisse' : 'rugueuse') + ', ' + (clim ? 'climatisé' : 'non climatisé') +
+      (clim && bill ? ', facture clim ' + fr.format(bill) + ' €/an, économie estimée ' + fr.format(Math.round(bill * 0.29)) + ' €/an' : '') +
+      ', peinture estimée ' + fr.format(litres) + ' L.';
+  }
+  compute();
+  document.getElementById('s-cta').addEventListener('click', function () {
+    document.getElementById('f-type').value = 'Cool roofing (toiture)';
+    document.getElementById('f-surf').value = sim.surf;
+    document.getElementById('f-est').value = summary;
+    var msg = document.getElementById('f-msg');
+    if (!msg.value.trim()) msg.value = summary + ' ';
+  });
+
+  // Formulaire : enregistre la demande dans Base44
+  var APP_ID = '6adf9892ccf39d45a3d04ec2';
   var form = document.getElementById('quote');
   var ok = document.getElementById('form-ok');
+  var sendBtn = form.querySelector('button[type=submit]');
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var nom = form.nom.value.trim(), tel = form.tel.value.trim();
-    ok.hidden = false;
+    ok.hidden = false; ok.classList.remove('err');
     if (!nom || !tel) {
+      ok.classList.add('err');
       ok.textContent = 'Indiquez au moins votre nom et votre téléphone pour être recontacté.';
       (nom ? form.tel : form.nom).focus();
       return;
     }
-    ok.textContent = 'Merci ' + nom + ', votre demande est prête. Ce formulaire est une démonstration : il doit encore être relié à une boîte e-mail pour être reçu. En attendant, appelez le 07 69 94 08 31.';
+    var record = {
+      nom: nom, telephone: tel, email: form.mail.value.trim(), ville: form.ville.value.trim(),
+      type_travaux: form.type.value, surface_m2: num(form.surf.value) || null,
+      message: form.msg.value.trim(), estimation: form.estimation.value,
+      source: form.estimation.value ? 'simulateur' : 'formulaire', statut: 'nouvelle'
+    };
+    sendBtn.disabled = true; ok.textContent = 'Envoi en cours…';
+    fetch('/api/apps/' + APP_ID + '/entities/DemandeDevis', {
+      method: 'POST',
+      headers: { 'X-App-Id': APP_ID, 'Content-Type': 'application/json' },
+      body: JSON.stringify(record)
+    }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      form.reset(); form.estimation.value = '';
+      ok.textContent = 'Merci ' + nom + ', votre demande est bien envoyée. Je vous rappelle sous 48 h ouvrées.';
+    }).catch(function () {
+      ok.classList.add('err');
+      ok.textContent = "La demande n'a pas pu partir. Appelez-moi directement au 07 69 94 08 31 ou écrivez à quentin.mateos@outlook.com.";
+    }).then(function () { sendBtn.disabled = false; });
   });
 })();
 </script>
