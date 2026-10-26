@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mateos Peinture</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Mateos Peinture, artisan peintre : peinture intérieure et extérieure, préparation des supports, revêtements muraux. Devis gratuit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout : bandeaux pleine largeur, contenu centré sur 1120px ; un nuancier de teintes sert de fil conducteur. */
+:root {
+  --wall: #f4f5f2;        /* fond : mur blanc fraîchement peint */
+  --surface: #ffffff;
+  --ink: #16242b;         /* texte : bleu ardoise très sombre */
+  --muted: #56646b;
+  --line: #dde1de;
+  --accent: #2c66c9;      /* bleu ruban de masquage */
+  --accent-ink: #ffffff;
+  --band: #16242b;
+  --band-ink: #eef2f1;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wall: #12191d; --surface: #1a2429; --ink: #e8eeec; --muted: #9aa8ad; --line: #2a363c;
+    --accent: #6c9dff; --accent-ink: #0d1520; --band: #0b1114; --band-ink: #e8eeec; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --wall: #12191d; --surface: #1a2429; --ink: #e8eeec; --muted: #9aa8ad; --line: #2a363c;
+  --accent: #6c9dff; --accent-ink: #0d1520; --band: #0b1114; --band-ink: #e8eeec; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  background: var(--wall); color: var(--ink);
+  font-family: var(--f-body); font-size: 1.0625rem; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--wall); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.08; text-wrap: balance; margin: 0; letter-spacing: -0.015em; }
+h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); font-weight: 800; }
+h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 700; }
+h3 { font-size: 1.25rem; font-weight: 700; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.eyebrow { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+section { padding-block: clamp(56px, 9vw, 104px); }
+
+/* En-tête */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--wall); border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--f-display); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em; }
+.brand-mark { width: 30px; height: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.brand-mark span { border-radius: 2px; }
+nav.main { display: flex; gap: 24px; align-items: center; font-weight: 500; font-size: .95rem; }
+nav.main a { text-decoration: none; color: var(--muted); }
+nav.main a:hover { color: var(--ink); }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 1rem/1 var(--f-body); padding: 14px 22px; border-radius: 6px; text-decoration: none; border: 2px solid var(--accent); cursor: pointer; transition: transform .15s ease, background .15s ease; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--ink); }
+nav.main .btn { padding: 10px 16px; color: var(--accent-ink); }
+@media (max-width: 760px) { nav.main a:not(.btn) { display: none; } }
+
+/* Hero */
+.hero { padding-block: clamp(40px, 7vw, 88px) clamp(48px, 7vw, 88px); }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+.hero-grid > * { min-width: 0; }
+.hero p.lead { font-size: 1.2rem; color: var(--muted); max-width: 34ch; margin-top: 22px; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--line); font-size: .95rem; color: var(--muted); }
+.facts strong { color: var(--ink); font-weight: 600; }
+.room { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.room svg { display: block; width: 100%; height: auto; border-radius: 6px; }
+.room .wallfill { transition: fill .5s ease; }
+.swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 14px; }
+.swatch { appearance: none; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 0 0 8px; cursor: pointer; text-align: left; color: var(--ink); overflow: hidden; }
+.swatch .chip { display: block; height: 34px; margin-bottom: 7px; }
+.swatch .nm { display: block; font-size: .72rem; font-weight: 600; padding-inline: 7px; line-height: 1.2; }
+.swatch .cd { display: block; font: 500 .62rem/1.3 var(--f-mono); color: var(--muted); padding-inline: 7px; }
+.swatch[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.room-caption { margin-top: 10px; font-size: .82rem; color: var(--muted); }
+@media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } }
+@media (max-width: 440px) { .swatch .cd { display: none; } }
+
+/* Prestations */
+.sec-head { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 64px; align-items: end; margin-bottom: 48px; }
+.sec-head p { color: var(--muted); max-width: 52ch; }
+@media (max-width: 760px) { .sec-head { grid-template-columns: 1fr; } }
+.services { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.service { padding: 28px 28px 32px 0; border-bottom: 1px solid var(--line); display: grid; gap: 10px; align-content: start; min-width: 0; }
+.service + .service { padding-left: 28px; border-left: 1px solid var(--line); }
+.service:nth-child(3n+1) { padding-left: 0; border-left: 0; }
+.service .tag { font: 500 .72rem var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.service p { color: var(--muted); font-size: 1rem; }
+.service ul { margin: 4px 0 0; padding-left: 18px; color: var(--muted); font-size: .95rem; }
+@media (max-width: 900px) {
+  .services { grid-template-columns: 1fr 1fr; }
+  .service, .service + .service { padding: 24px 20px 28px 0; border-left: 0; }
+  .service:nth-child(even) { padding-left: 20px; border-left: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .services { grid-template-columns: 1fr; }
+  .service:nth-child(even) { padding-left: 0; border-left: 0; }
+}
+
+/* Méthode (bandeau sombre) */
+.band { background: var(--band); color: var(--band-ink); }
+.band .eyebrow, .band .sec-head p { color: color-mix(in srgb, var(--band-ink) 65%, transparent); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; counter-reset: s; }
+.steps li { counter-increment: s; padding: 0 20px 0 0; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.steps li::before { content: "0" counter(s); font: 500 .8rem var(--f-mono); color: var(--band-ink); opacity: .55; padding-bottom: 14px; border-bottom: 2px solid color-mix(in srgb, var(--band-ink) 25%, transparent); }
+.steps li:first-child::before { border-bottom-color: var(--accent); opacity: 1; }
+.steps h3 { font-size: 1.1rem; margin-top: 6px; }
+.steps p { font-size: .95rem; color: color-mix(in srgb, var(--band-ink) 72%, transparent); }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; gap: 32px 0; } }
+@media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }
+
+/* Engagements */
+.pledges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.pledges > div { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.pledges .big { font-family: var(--f-display); font-weight: 800; font-size: 2.2rem; line-height: 1; color: var(--accent); }
+.pledges p { color: var(--muted); font-size: .98rem; }
+@media (max-width: 860px) { .pledges { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .pledges { grid-template-columns: 1fr; } }
+
+/* À propos */
+.about { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(32px, 6vw, 80px); align-items: start; }
+.about > * { min-width: 0; }
+.about .body { display: grid; gap: 18px; color: var(--muted); max-width: 62ch; }
+.about .body strong { color: var(--ink); }
+@media (max-width: 760px) { .about { grid-template-columns: 1fr; } }
+
+/* Contact */
+.contact { border-top: 1px solid var(--line); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(32px, 6vw, 72px); }
+.contact-grid > * { min-width: 0; }
+.coords { display: grid; gap: 18px; margin-top: 28px; }
+.coord { display: grid; gap: 2px; }
+.coord .k { font: 500 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.coord .v { font-size: 1.15rem; font-weight: 600; user-select: all; overflow-wrap: anywhere; }
+.todo { font-size: .82rem; color: var(--muted); margin-top: 6px; }
+form.quote { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: clamp(20px, 4vw, 32px); display: grid; gap: 16px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label { font-size: .88rem; font-weight: 600; }
+.field input, .field select, .field textarea { font: inherit; font-size: 1rem; color: var(--ink); background: var(--wall); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; width: 100%; }
+.field textarea { min-height: 120px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+.form-note { font-size: .82rem; color: var(--muted); }
+.form-ok { padding: 14px 16px; border-radius: 6px; background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid var(--accent); font-size: .95rem; }
+
+footer { border-top: 1px solid var(--line); padding-block: 32px; font-size: .88rem; color: var(--muted); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#accueil" aria-label="Mateos Peinture, accueil">
+      <span class="brand-mark" aria-hidden="true">
+        <span style="background:#2c66c9"></span><span style="background:#c99a3e"></span>
+        <span style="background:#6f8f7a"></span><span style="background:#b8573f"></span>
+      </span>
+      Mateos Peinture
+    </a>
+    <nav class="main" aria-label="Navigation principale">
+      <a href="#prestations">Prestations</a>
+      <a href="#methode">Méthode</a>
+      <a href="#apropos">L'entreprise</a>
+      <a class="btn btn-primary" href="#contact">Demander un devis</a>
+    </nav>
+  </div>
+</header>
+
+<main id="accueil">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Artisan peintre · Intérieur &amp; extérieur</p>
+        <h1 style="margin-top:16px">Des finitions nettes, un chantier propre.</h1>
+        <p class="lead">Peinture intérieure, façades, boiseries et préparation des supports. Un seul interlocuteur, du devis jusqu'à la dernière couche.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#contact">Demander un devis gratuit</a>
+          <a class="btn btn-ghost" href="#prestations">Voir les prestations</a>
+        </div>
+        <div class="facts">
+          <span><strong>Devis gratuit</strong> sous 48 h</span>
+          <span><strong>Particuliers</strong> &amp; professionnels</span>
+          <span><strong>Assurance</strong> professionnelle</span>
+        </div>
+      </div>
+
+      <div class="room" aria-label="Aperçu d'une pièce, choisissez une teinte">
+        <svg viewBox="0 0 480 300" role="img" aria-labelledby="room-t">
+          <title id="room-t">Salon dont le mur change de couleur selon la teinte choisie</title>
+          <rect class="wallfill" id="wall" x="0" y="0" width="480" height="222" fill="#e9e4da"/>
+          <rect x="0" y="222" width="480" height="78" fill="#b98f66"/>
+          <rect x="0" y="222" width="480" height="7" fill="#f2f0ea"/>
+          <g fill="#a27b55"><rect x="0" y="246" width="480" height="1.5"/><rect x="0" y="272" width="480" height="1.5"/></g>
+          <rect x="300" y="38" width="120" height="132" fill="#f2f0ea"/>
+          <rect x="308" y="46" width="104" height="116" fill="#cfe1ea"/>
+          <rect x="358" y="46" width="4" height="116" fill="#f2f0ea"/>
+          <rect x="308" y="102" width="104" height="4" fill="#f2f0ea"/>
+          <rect x="70" y="58" width="130" height="86" fill="#f2f0ea"/>
+          <rect x="78" y="66" width="114" height="70" fill="#d9cdb8"/>
+          <circle cx="160" cy="92" r="16" fill="#c99a3e"/>
+          <rect x="78" y="112" width="114" height="24" fill="#6f8f7a"/>
+          <rect x="40" y="168" width="200" height="54" rx="10" fill="#3b4a52"/>
+          <rect x="30" y="182" width="22" height="48" rx="8" fill="#33414a"/>
+          <rect x="228" y="182" width="22" height="48" rx="8" fill="#33414a"/>
+          <rect x="48" y="226" width="6" height="12" fill="#2a353b"/><rect x="226" y="226" width="6" height="12" fill="#2a353b"/>
+          <rect x="300" y="196" width="10" height="26" fill="#2a353b"/>
+          <ellipse cx="305" cy="170" rx="34" ry="30" fill="#5f7d64"/>
+          <rect x="292" y="198" width="26" height="26" rx="3" fill="#b8573f"/>
+        </svg>
+        <div class="swatches" role="group" aria-label="Teintes">
+          <button class="swatch" type="button" data-c="#e9e4da" aria-pressed="true"><span class="chip" style="background:#e9e4da"></span><span class="nm">Blanc lin</span><span class="cd">Mat · velours</span></button>
+          <button class="swatch" type="button" data-c="#c6d0c4" aria-pressed="false"><span class="chip" style="background:#c6d0c4"></span><span class="nm">Vert sauge</span><span class="cd">Velours</span></button>
+          <button class="swatch" type="button" data-c="#d8a76a" aria-pressed="false"><span class="chip" style="background:#d8a76a"></span><span class="nm">Ocre doux</span><span class="cd">Mat</span></button>
+          <button class="swatch" type="button" data-c="#7f98ad" aria-pressed="false"><span class="chip" style="background:#7f98ad"></span><span class="nm">Bleu orage</span><span class="cd">Velours</span></button>
+          <button class="swatch" type="button" data-c="#2f4550" aria-pressed="false"><span class="chip" style="background:#2f4550"></span><span class="nm">Ardoise</span><span class="cd">Mat profond</span></button>
+        </div>
+        <p class="room-caption">Essayez une teinte. Les échantillons réels sont apportés lors de la visite.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="prestations">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Prestations</p>
+          <h2 style="margin-top:12px">Du rebouchage à la façade</h2>
+        </div>
+        <p>Une peinture tient grâce à sa préparation. Chaque chantier commence par l'état des supports, puis le choix du produit adapté à la pièce et à l'usage.</p>
+      </div>
+      <div class="services">
+        <article class="service">
+          <span class="tag">Intérieur</span>
+          <h3>Murs et plafonds</h3>
+          <p>Pièces de vie, chambres, cuisines et salles d'eau, avec des peintures adaptées à l'humidité et au lessivage.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Extérieur</span>
+          <h3>Façades et ravalement</h3>
+          <p>Nettoyage, traitement des fissures et peinture de façade pour protéger et rafraîchir la maison.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Boiseries</span>
+          <h3>Portes, volets, menuiseries</h3>
+          <p>Ponçage, sous-couche, laque ou lasure. Volets, portails, garde-corps et escaliers.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Préparation</span>
+          <h3>Supports</h3>
+          <ul>
+            <li>Rebouchage, enduits, ratissage</li>
+            <li>Ponçage et dépoussiérage</li>
+            <li>Impression et sous-couches</li>
+          </ul>
+        </article>
+        <article class="service">
+          <span class="tag">Revêtements</span>
+          <h3>Papier peint et toile</h3>
+          <p>Dépose de l'ancien revêtement, pose de papier peint, intissé ou toile de verre à peindre.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Conseil</span>
+          <h3>Choix des teintes</h3>
+          <p>Aide au choix des couleurs et des finitions, échantillons testés sur vos murs avant de commencer.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="methode" class="band">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Méthode</p>
+          <h2 style="margin-top:12px">Comment se passe un chantier</h2>
+        </div>
+        <p>Les mêmes étapes à chaque fois, pour que vous sachiez toujours où en sont les travaux.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Visite et devis</h3><p>Je viens voir les lieux, je mesure et je vous remets un devis détaillé, poste par poste.</p></li>
+        <li><h3>Protection</h3><p>Sols bâchés, meubles couverts, prises et plinthes masquées avant le moindre coup de pinceau.</p></li>
+        <li><h3>Préparation</h3><p>Lessivage, rebouchage, ponçage et sous-couche selon l'état des supports.</p></li>
+        <li><h3>Mise en peinture</h3><p>Deux couches minimum, temps de séchage respectés, finitions soignées aux angles.</p></li>
+        <li><h3>Nettoyage et réception</h3><p>Chantier rendu propre. On fait le tour ensemble avant de valider.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Engagements</p>
+          <h2 style="margin-top:12px">Ce sur quoi vous pouvez compter</h2>
+        </div>
+      </div>
+      <div class="pledges">
+        <div><span class="big">48 h</span><h3>Devis rapide</h3><p>Un devis clair après la visite, sans frais ni engagement.</p></div>
+        <div><span class="big">2</span><h3>Couches minimum</h3><p>Pour une teinte homogène et une peinture qui dure.</p></div>
+        <div><span class="big">0</span><h3>Mauvaise surprise</h3><p>Le prix du devis est le prix payé, sauf travaux supplémentaires validés par écrit.</p></div>
+        <div><span class="big">RC Pro</span><h3>Entreprise assurée</h3><p>Travaux couverts par une assurance professionnelle.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apropos" style="padding-top:0">
+    <div class="wrap about">
+      <div>
+        <p class="eyebrow">L'entreprise</p>
+        <h2 style="margin-top:12px">Un artisan, un interlocuteur</h2>
+      </div>
+      <div class="body">
+        <p><strong>Mateos Peinture</strong> est une entreprise individuelle de peinture en bâtiment. C'est la même personne qui vous répond au téléphone, établit le devis et réalise les travaux.</p>
+        <p>Je prends le temps d'écouter ce que vous voulez, de vous conseiller honnêtement sur les teintes et les produits, et de vous expliquer chaque étape. Un chantier réussi, c'est un résultat soigné et un client qui a été bien accompagné.</p>
+        <p>J'interviens chez les particuliers comme chez les professionnels : appartements, maisons, bureaux, commerces et locations à remettre en état.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap contact-grid">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2 style="margin-top:12px">Parlons de votre projet</h2>
+        <p style="color:var(--muted);margin-top:16px;max-width:44ch">Décrivez vos travaux en quelques lignes. Je vous recontacte pour fixer une visite et établir un devis gratuit.</p>
+        <div class="coords">
+          <div class="coord"><span class="k">Téléphone</span><span class="v">06 00 00 00 00</span></div>
+          <div class="coord"><span class="k">E-mail</span><span class="v">contact@mateos-peinture.fr</span></div>
+          <div class="coord"><span class="k">Zone d'intervention</span><span class="v">Votre ville et 30 km alentour</span></div>
+          <div class="coord"><span class="k">Horaires</span><span class="v">Lundi au vendredi, 8 h – 18 h</span></div>
+        </div>
+        <p class="todo">Coordonnées d'exemple, à remplacer par les vôtres.</p>
+      </div>
+
+      <form class="quote" id="quote" novalidate>
+        <div class="row2">
+          <div class="field"><label for="f-nom">Nom</label><input id="f-nom" name="nom" autocomplete="name" required></div>
+          <div class="field"><label for="f-tel">Téléphone</label><input id="f-tel" name="tel" type="tel" autocomplete="tel" required></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="f-mail">E-mail</label><input id="f-mail" name="mail" type="email" autocomplete="email"></div>
+          <div class="field"><label for="f-ville">Ville des travaux</label><input id="f-ville" name="ville" autocomplete="address-level2"></div>
+        </div>
+        <div class="field">
+          <label for="f-type">Type de travaux</label>
+          <select id="f-type" name="type">
+            <option>Peinture intérieure</option>
+            <option>Façade / extérieur</option>
+            <option>Boiseries, volets</option>
+            <option>Papier peint, revêtements</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-msg">Votre projet</label><textarea id="f-msg" name="msg" placeholder="Ex. : salon et couloir, environ 40 m² de murs, plafonds à reprendre."></textarea></div>
+        <button class="btn btn-primary" type="submit" style="justify-self:start">Envoyer ma demande</button>
+        <p class="form-note" id="form-note">Vos informations servent uniquement à vous recontacter.</p>
+        <div class="form-ok" id="form-ok" hidden></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Mateos Peinture · Entreprise individuelle · SIRET : à compléter</span>
+    <span>Peinture intérieure · Façades · Boiseries · Revêtements</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var wall = document.getElementById('wall');
+  var buttons = document.querySelectorAll('.swatch');
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      wall.setAttribute('fill', b.dataset.c);
+      buttons.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+    });
+  });
+
+  var form = document.getElementById('quote');
+  var ok = document.getElementById('form-ok');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nom = form.nom.value.trim(), tel = form.tel.value.trim();
+    if (!nom || !tel) {
+      ok.hidden = false;
+      ok.textContent = 'Indiquez au moins votre nom et votre téléphone pour être recontacté.';
+      (nom ? form.tel : form.nom).focus();
+      return;
+    }
+    ok.hidden = false;
+    ok.textContent = 'Merci ' + nom + ', votre demande est prête. Ce formulaire est une démonstration : il doit encore être relié à votre boîte e-mail pour vous parvenir.';
+  });
+})();
+</script>
+</body>
+</html>
