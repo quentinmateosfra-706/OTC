@@ -25,3 +25,4 @@ android/
 # Système
 .DS_Store
 *.log
+.taste-skill/
