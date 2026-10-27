@@ -165,11 +165,43 @@
       }).then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         form.reset(); form.estimation.value = '';
-        ok.textContent = 'Merci ' + nom + ', votre demande est bien envoyée. Je vous rappelle sous 48 h ouvrées.';
+        ok.textContent = 'Merci ' + nom + ', votre demande a bien été transmise. Nous vous recontactons sous 48 h ouvrées.';
       }).catch(function () {
         ok.classList.add('err');
-        ok.textContent = "La demande n'a pas pu partir. Appelez-moi directement au 07 69 94 08 31 ou écrivez à quentin.mateos@outlook.com.";
+        ok.textContent = "La demande n'a pas pu partir. Contactez-nous directement au 07 69 94 08 31 ou à quentin.mateos@outlook.com.";
       }).then(function () { sendBtn.disabled = false; });
     });
   }
+
+  // ---- v6 : titres mot par mot, photos qui se dévoilent, profondeur, en-tête ----
+  document.querySelectorAll('.split-words').forEach(function (h) {
+    h.querySelectorAll('.w > span').forEach(function (s, i) { s.style.setProperty('--i', i); });
+    requestAnimationFrame(function () { requestAnimationFrame(function () { h.classList.add('in'); }); });
+  });
+
+  var imgs = document.querySelectorAll('.reveal-img');
+  if ('IntersectionObserver' in window) {
+    var rio2 = new IntersectionObserver(function (en) {
+      en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rio2.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    imgs.forEach(function (el) { rio2.observe(el); });
+  }
+  setTimeout(function () { imgs.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+
+  var hdr = document.getElementById('top');
+  var par = reduce ? [] : Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  var ticking = false;
+  function onScroll() {
+    if (hdr) hdr.classList.toggle('scrolled', window.scrollY > 12);
+    var vh = window.innerHeight;
+    par.forEach(function (img) {
+      var r = img.parentNode.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      var p = (r.top + r.height / 2 - vh / 2) / vh;  // -1 … 1
+      img.style.transform = 'translate3d(0,' + (p * -9).toFixed(2) + '%,0)';
+    });
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
 })();
