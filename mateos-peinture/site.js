@@ -158,18 +158,33 @@
         source: form.estimation.value ? 'simulateur' : 'formulaire', statut: 'nouvelle'
       };
       sendBtn.disabled = true; ok.textContent = 'Envoi en cours…';
-      fetch('/api/apps/' + APP_ID + '/entities/DemandeDevis', {
-        method: 'POST',
-        headers: { 'X-App-Id': APP_ID, 'Content-Type': 'application/json' },
-        body: JSON.stringify(record)
-      }).then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        form.reset(); form.estimation.value = '';
-        ok.textContent = 'Merci ' + nom + ', votre demande a bien été transmise. Nous vous recontactons sous 48 h ouvrées.';
-      }).catch(function () {
-        ok.classList.add('err');
-        ok.textContent = "La demande n'a pas pu partir. Contactez-nous directement au 07 69 94 08 31 ou à quentin.mateos@outlook.com.";
-      }).then(function () { sendBtn.disabled = false; });
+      // Double envoi : enregistrement dans Base44 + e-mail à Quentin via FormSubmit.
+      var nr = function (x) { return x ? String(x) : 'non renseigné'; };
+      var mail = {
+        'Nom / société': nom, 'Téléphone': tel, 'E-mail': nr(record.email), 'Ville du chantier': nr(record.ville),
+        'Type de travaux': record.type_travaux, 'Surface (m²)': nr(record.surface_m2), 'Message': record.message || '(aucun message)',
+        'Estimation du simulateur': record.estimation || 'aucune', 'Origine': record.source,
+        _subject: 'Nouvelle demande de devis : ' + nom + ' (' + record.type_travaux + ')',
+        _template: 'table', _captcha: 'false'
+      };
+      if (record.email) mail._replyto = record.email;
+      var post = function (url, headers, data) {
+        return fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(data) })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r; });
+      };
+      Promise.allSettled([
+        post('/api/apps/' + APP_ID + '/entities/DemandeDevis', { 'X-App-Id': APP_ID, 'Content-Type': 'application/json' }, record),
+        post('https://formsubmit.co/ajax/quentin.mateos@outlook.com', { 'Content-Type': 'application/json', 'Accept': 'application/json' }, mail)
+      ]).then(function (res) {
+        if (res.some(function (x) { return x.status === 'fulfilled'; })) {
+          form.reset(); form.estimation.value = '';
+          ok.textContent = 'Merci ' + nom + ', votre demande a bien été transmise. Nous vous recontactons sous 48 h ouvrées.';
+        } else {
+          ok.classList.add('err');
+          ok.textContent = "La demande n'a pas pu partir. Contactez-nous directement au 07 69 94 08 31 ou à quentin.mateos@outlook.com.";
+        }
+        sendBtn.disabled = false;
+      });
     });
   }
 
