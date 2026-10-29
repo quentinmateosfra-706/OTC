@@ -167,7 +167,7 @@
         _subject: 'Nouvelle demande de devis : ' + nom + ' (' + record.type_travaux + ')',
         _template: 'table', _captcha: 'false'
       };
-      if (record.email) mail._replyto = record.email;
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(record.email)) mail._replyto = record.email;  // FormSubmit refuse une adresse de réponse invalide
       var post = function (url, headers, data) {
         return fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(data) })
           .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r; });
