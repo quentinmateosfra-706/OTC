@@ -84,20 +84,23 @@
   // Valeur la plus fréquente : médiane des 5 cas chiffrés (7,4 / 12,8 / 15 / 25 / 29 %) et des 3 cas en €/m².
   var ECO_TYP_PCT = 0.15, ECO_TYP_M2 = 7.3;
   // Par type de bâtiment : température mesurée et bénéfices rapportés sur les 21 chantiers.
+  var IND = { temp: '−3,5 à −4,5 °C', tempD: "à l'intérieur en moyenne, −7,5 à −8,3 °C en pic" };
+  var LOG = { temp: '−4 à −5 °C', tempD: "pour les logements sous toiture, jusqu'à −8,5 °C en pic" };
+  var GEN = { temp: '−3,5 à −4,6 °C', tempD: "à l'intérieur en moyenne, jusqu'à −8,5 °C en pic" };
   var TYPE = {
-    commerce: { temp: '−3,5 à −4,6 °C', tempD: "à l'intérieur en moyenne, jusqu'à −8,5 °C en pic",
-      benef: ['Résultat ressenti dès le premier jour', 'Moins de pannes des groupes froids', "Moins de risques d'infiltration d'eau"] },
-    bureaux: { temp: '−3,5 à −4,6 °C', tempD: "à l'intérieur en moyenne, aucun bureau au-dessus de 30 °C sur un site mesuré",
+    industrie: { t: IND, label: 'site industriel', benef: ['Activité maintenue pendant les canicules', 'Fraîcheur immédiate pour les équipes', 'Moins de jours au-dessus de 28 °C'] },
+    entrepot: { t: IND, label: 'entrepôt / logistique', benef: ['Températures stables pour les produits sensibles', 'Fraîcheur immédiate pour les équipes', 'Chantier sans arrêt de l\'activité'] },
+    commerce: { t: GEN, label: 'surface commerciale', benef: ['Résultat ressenti dès le premier jour', 'Moins de pannes des groupes froids', "Moins de risques d'infiltration d'eau"] },
+    bureaux: { t: { temp: GEN.temp, tempD: "à l'intérieur en moyenne, aucun bureau au-dessus de 30 °C sur un site mesuré" }, label: 'bureaux / tertiaire',
       benef: ['Climatisation moins souvent en surrégime', 'Moins de pannes de climatisation', 'Retours très positifs des occupants'] },
-    industrie: { temp: '−3,5 à −4,5 °C', tempD: "à l'intérieur en moyenne, −7,5 à −8,3 °C en pic",
-      benef: ['Activité maintenue pendant les canicules', 'Fraîcheur immédiate pour les équipes', 'Températures stables pour les produits sensibles'] },
-    logements: { temp: '−4 à −5 °C', tempD: "pour les logements sous toiture, jusqu'à −8,5 °C en pic",
-      benef: ['Écarts de température divisés par 2', 'Dernier étage stable malgré +9 °C dehors', 'Confort d\'été sans climatisation'] }
+    bailleurs: { t: LOG, label: 'bailleur social', benef: ['Écarts de température divisés par 2', 'Dernier étage stable malgré +9 °C dehors', "Confort d'été sans climatisation pour les locataires"] },
+    coproprietes: { t: LOG, label: 'copropriété', benef: ['Logements du dernier étage plus frais', 'Écarts de température divisés par 2', "Confort d'été sans climatisation"] },
+    publics: { t: GEN, label: 'établissement public', benef: ['Confort nettement amélioré pour les agents', "12 jours d'inconfort en moins sur un site mesuré", 'Travaux sans fermer le bâtiment'] },
+    ecoles: { t: GEN, label: 'école', benef: ["Confort d'été sans climatisation", 'Jours de chaleur excessive en moins', 'Travaux réalisés par l\'extérieur'] }
   };
   var sRange = $('s-range');
   if (sRange) {
     var sim = { surf: 1000, sup: 'lisse', clim: 'oui', bat: 'commerce' };
-    var BAT = { commerce: 'commerce / restauration', bureaux: 'bureaux', industrie: 'industrie / entrepôt', logements: 'logements' };
     var sSurf = $('s-surf'), sBill = $('s-bill');
     var summary = '';
     var cent = function (x) { return Math.round(x / 100) * 100; };
@@ -125,12 +128,12 @@
         $('r-typ').textContent = 'Valeur la plus fréquente sur les chantiers mesurés : environ ' + fr.format(cent(typ)) + ' € par an';
       }
       var t = TYPE[sim.bat];
-      $('r-temp').textContent = t.temp; $('r-temp-d').textContent = t.tempD;
+      $('r-temp').textContent = t.t.temp; $('r-temp-d').textContent = t.t.tempD;
       $('r-benef').innerHTML = t.benef.map(function (x) { return '<li>' + x + '</li>'; }).join('');
-      var parJours = !clim || sim.bat === 'logements';
+      var parJours = !clim || sim.bat === 'bailleurs' || sim.bat === 'coproprietes' || sim.bat === 'ecoles';
       $('r-roi').textContent = parJours ? JOURS[0] + ' à ' + JOURS[1] + ' jours' : '2 à 3 ans';
       $('r-roi-d').textContent = parJours ? 'de chaleur excessive en moins par été' : 'de retour sur investissement constaté';
-      summary = 'Simulateur : ' + BAT[sim.bat] + ', ' + fr.format(surf) + ' m², toiture ' + (sim.sup === 'lisse' ? 'lisse' : 'rugueuse') + ', ' +
+      summary = 'Simulateur : ' + TYPE[sim.bat].label + ', ' + fr.format(surf) + ' m², toiture ' + (sim.sup === 'lisse' ? 'lisse' : 'rugueuse') + ', ' +
         (clim ? 'climatisé' : 'non climatisé') + (clim && bill ? ', facture électricité ' + fr.format(bill) + ' €/an' : '') +
         ', ' + ecoTxt + ', peinture estimée ' + fr.format(litres) + ' L.';
     };
