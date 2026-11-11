@@ -461,3 +461,17 @@ nav.main a[aria-current="page"]:not(.btn)::after { transform: scaleX(1); }
   .marquee-track[aria-hidden="true"] { display: none; }
   .bleed-img img { transform: none !important; }
 }
+
+/* Cas de référence du simulateur */
+.cases { margin-top: clamp(40px, 5vw, 64px); }
+.cases h3 { font-size: 1.3rem; }
+.cases-intro { margin-top: 8px; color: var(--ink-2); max-width: 70ch; }
+.cases-list { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.cases-list li { background: var(--ground); border-radius: 4px; padding: 18px 20px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.cases-list b { font-size: 1.05rem; }
+.cases-list span { color: var(--ink-2); font-size: .95rem; }
+.cases-list strong { color: var(--blue); font-size: 1rem; margin-top: 6px; }
+@media (max-width: 860px) { .cases-list { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .cases-list { grid-template-columns: 1fr; } }
+#s-bat { gap: 8px; }
+.res-grid .v { font-size: clamp(1.7rem, 2.8vw, 2.4rem); white-space: nowrap; }

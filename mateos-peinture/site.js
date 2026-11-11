@@ -77,12 +77,17 @@
     });
   }
 
-  // Simulateur
+  // Simulateur : fourchettes tirées des mesures publiées par Enercool sur ses chantiers de référence
+  // (centre commercial −7,4 %, magasin −29 %, restaurant −12,8 % ; 5,6 à 8 € HT/m²/an ;
+  //  −3,5 à −4,6 °C en moyenne, −8,5 °C en pic ; retour sur investissement 2 à 3 ans).
+  var ECO_PCT = [0.07, 0.29], ECO_M2 = [5.5, 8], JOURS = [12, 32];
   var sRange = $('s-range');
   if (sRange) {
-    var sim = { surf: 1000, sup: 'lisse', clim: 'oui' };
+    var sim = { surf: 1000, sup: 'lisse', clim: 'oui', bat: 'commerce' };
+    var BAT = { commerce: 'commerce / restauration', bureaux: 'bureaux', industrie: 'industrie / entrepôt', logements: 'logements' };
     var sSurf = $('s-surf'), sBill = $('s-bill');
     var summary = '';
+    var cent = function (x) { return Math.round(x / 100) * 100; };
     var compute = function () {
       var surf = sim.surf;
       var perM2 = sim.sup === 'lisse' ? 1 / 3 : 0.5;  // 2 couches : 5 L = 15 m² (lisse), 5 L = 10 m² (rugueux)
@@ -92,14 +97,24 @@
       $('r-paint-d').textContent = 'de peinture pour 2 couches, soit ' + seaux + ' seau' + (seaux > 1 ? 'x' : '') + ' de 17 L';
       var clim = sim.clim === 'oui';
       $('s-bill-row').hidden = !clim;
-      $('r-temp-d').textContent = clim ? "à l'intérieur en moyenne, jusqu'à −8 °C en pic" : "à l'intérieur en moyenne : les étages sous toiture redeviennent vivables";
-      var bill = num(sBill.value), eco = $('r-eco'), ecoD = $('r-eco-d');
-      if (!clim) { eco.textContent = 'Confort'; ecoD.textContent = "d'été retrouvé sans installer de climatisation"; }
-      else if (bill > 0) { eco.textContent = fr.format(Math.round(bill * 0.29)) + ' €'; ecoD.textContent = "d'économie de climatisation par an (−29 %)"; }
-      else { eco.textContent = '−29 %'; ecoD.textContent = 'sur la facture de climatisation. Indiquez-la pour voir le montant'; }
-      summary = 'Simulateur : ' + fr.format(surf) + ' m², toiture ' + (sim.sup === 'lisse' ? 'lisse' : 'rugueuse') + ', ' + (clim ? 'climatisé' : 'non climatisé') +
-        (clim && bill ? ', facture clim ' + fr.format(bill) + ' €/an, économie estimée ' + fr.format(Math.round(bill * 0.29)) + ' €/an' : '') +
-        ', peinture estimée ' + fr.format(litres) + ' L.';
+      var bill = num(sBill.value), eco = $('r-eco'), ecoD = $('r-eco-d'), ecoTxt;
+      if (!clim) {
+        eco.textContent = 'Confort d\'été';
+        ecoD.textContent = 'retrouvé sans installer de climatisation';
+        ecoTxt = 'confort d\'été (bâtiment non climatisé)';
+      } else {
+        var lo = bill > 0 ? bill * ECO_PCT[0] : surf * ECO_M2[0];
+        var hi = bill > 0 ? bill * ECO_PCT[1] : surf * ECO_M2[1];
+        eco.textContent = fr.format(cent(lo)) + ' – ' + fr.format(cent(hi)) + ' €';
+        ecoD.textContent = bill > 0 ? 'd\'économie d\'électricité par an (−7 % à −29 % de la facture)' : 'd\'économie d\'électricité estimée par an, selon la surface';
+        ecoTxt = 'économie estimée ' + fr.format(cent(lo)) + ' à ' + fr.format(cent(hi)) + ' € HT/an';
+      }
+      var parJours = !clim || sim.bat === 'logements';
+      $('r-roi').textContent = parJours ? JOURS[0] + ' à ' + JOURS[1] + ' jours' : '2 à 3 ans';
+      $('r-roi-d').textContent = parJours ? 'de chaleur excessive en moins par été' : 'de retour sur investissement constaté';
+      summary = 'Simulateur : ' + BAT[sim.bat] + ', ' + fr.format(surf) + ' m², toiture ' + (sim.sup === 'lisse' ? 'lisse' : 'rugueuse') + ', ' +
+        (clim ? 'climatisé' : 'non climatisé') + (clim && bill ? ', facture électricité ' + fr.format(bill) + ' €/an' : '') +
+        ', ' + ecoTxt + ', peinture estimée ' + fr.format(litres) + ' L.';
     };
     var segs = function (id, key) {
       var bs = document.querySelectorAll('#' + id + ' button');
@@ -111,7 +126,7 @@
         });
       });
     };
-    segs('s-sup', 'sup'); segs('s-clim', 'clim');
+    segs('s-sup', 'sup'); segs('s-clim', 'clim'); segs('s-bat', 'bat');
     sRange.addEventListener('input', function () { sim.surf = num(sRange.value); sSurf.value = fr.format(sim.surf); compute(); });
     sSurf.addEventListener('input', function () { sim.surf = num(sSurf.value); sRange.value = Math.min(10000, Math.max(50, sim.surf)); compute(); });
     sSurf.addEventListener('blur', function () { sSurf.value = fr.format(sim.surf); });

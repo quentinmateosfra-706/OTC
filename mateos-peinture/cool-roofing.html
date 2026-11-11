@@ -76,7 +76,7 @@
       "name": "Quel gain de température peut-on attendre ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "En moyenne −5 °C de température intérieure, jusqu'à −8 °C en pic, et −29 % de consommation de climatisation mesurés en saison chaude. Le gain réel dépend du bâtiment : il est estimé lors de la visite technique."
+        "text": "Sur les chantiers mesurés par Enercool : de −3,5 à −4,6 °C de température intérieure en moyenne, jusqu'à −8,5 °C en pic, et de −7 % à −29 % de consommation d'électricité. Le gain réel dépend du bâtiment : il est estimé lors de la visite technique."
       }
     },
     {
@@ -93,7 +93,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="site.css?v=8">
+<link rel="stylesheet" href="site.css?v=9">
 </head>
 <body>
 <header class="top" id="top">
@@ -229,7 +229,7 @@
     <div class="wrap">
       <div class="split" data-reveal>
         <h2>Simulez vos économies.</h2>
-        <p class="lead" style="max-width:48ch">Renseignez la surface et le type de votre toiture pour obtenir une première estimation, mise à jour en direct.</p>
+        <p class="lead" style="max-width:48ch">Une fourchette indicative, calculée à partir de résultats mesurés sur des chantiers réels. Elle se met à jour en direct.</p>
       </div>
       <div class="sim">
         <form class="sim-in" id="simform" onsubmit="return false" data-reveal>
@@ -238,6 +238,15 @@
             <div class="surf">
               <input id="s-range" type="range" min="50" max="10000" step="50" value="1000" aria-label="Surface de toiture en mètres carrés">
               <span class="num"><input id="s-surf" type="text" inputmode="numeric" value="1000" aria-describedby="s-unit"><span id="s-unit">m²</span></span>
+            </div>
+          </div>
+          <div class="sim-row">
+            <span class="lbl" id="s-bat-l">Type de bâtiment</span>
+            <div class="seg" role="group" aria-labelledby="s-bat-l" id="s-bat">
+              <button type="button" data-v="commerce" aria-pressed="true">Commerce, restauration</button>
+              <button type="button" data-v="bureaux" aria-pressed="false">Bureaux</button>
+              <button type="button" data-v="industrie" aria-pressed="false">Industrie, entrepôt</button>
+              <button type="button" data-v="logements" aria-pressed="false">Logements</button>
             </div>
           </div>
           <div class="sim-row">
@@ -255,24 +264,37 @@
             </div>
           </div>
           <div class="sim-row" id="s-bill-row">
-            <label for="s-bill">Facture de climatisation par an (facultatif)</label>
-            <div class="euro"><input id="s-bill" type="text" inputmode="numeric" placeholder="Ex. : 10 000"><span>€</span></div>
+            <label for="s-bill">Facture d'électricité annuelle (facultatif)</label>
+            <div class="euro"><input id="s-bill" type="text" inputmode="numeric" placeholder="Ex. : 50 000"><span>€ HT</span></div>
           </div>
         </form>
         <div class="sim-out" aria-live="polite" data-reveal>
           <div class="res">
-            <span class="v" id="r-temp">−5 °C</span>
-            <span class="d" id="r-temp-d">à l'intérieur en moyenne, jusqu'à −8 °C en pic</span>
+            <span class="v" id="r-eco">5 500 – 8 000 €</span>
+            <span class="d" id="r-eco-d">d'économie d'électricité estimée par an</span>
           </div>
           <div class="res-grid">
-            <div class="res"><span class="v" id="r-eco">–</span><span class="d" id="r-eco-d">d'économie de climatisation par an</span></div>
-            <div class="res"><span class="v" id="r-paint">333 L</span><span class="d" id="r-paint-d">de peinture pour 2 couches</span></div>
+            <div class="res"><span class="v">−3,5 à −4,6 °C</span><span class="d">à l'intérieur en moyenne, jusqu'à −8,5 °C en pic</span></div>
+            <div class="res"><span class="v" id="r-roi">2 à 3 ans</span><span class="d" id="r-roi-d">de retour sur investissement constaté</span></div>
+            <div class="res"><span class="v" id="r-paint">334 L</span><span class="d" id="r-paint-d">de peinture pour 2 couches</span></div>
             <div class="res"><span class="v">85 %</span><span class="d">du rayonnement solaire renvoyé</span></div>
-            <div class="res"><span class="v">2 à 5 ans</span><span class="d">de retour sur investissement</span></div>
           </div>
-          <p class="note">Estimation indicative, établie à partir de la fiche technique Enercool et de résultats mesurés en saison chaude. Le chiffrage définitif est réalisé après visite technique.</p>
+          <p class="note">Fourchettes indicatives établies à partir des mesures publiées par Enercool sur ses chantiers de référence. Le gain réel dépend du bâtiment : il est estimé lors de la visite technique.</p>
           <a class="btn btn-white" href="contact.html" id="s-cta">Demander une étude gratuite</a>
         </div>
+      </div>
+
+      <div class="cases" data-reveal>
+        <h3>Sur quoi repose l'estimation</h3>
+        <p class="cases-intro">Résultats mesurés sur des chantiers de référence du revêtement Enercool (source : Enercool, références et retours d'expérience).</p>
+        <ul class="cases-list">
+          <li><b>Centre commercial</b><span>Saint-Rémy-de-Provence (13) · 2 993 m²</span><strong>−7,4 % d'électricité · 22 000 € HT/an</strong></li>
+          <li><b>Magasin</b><span>Cabriès (13) · 1 800 m²</span><strong>−29 % d'énergie l'été · 10 000 € HT en 4 mois</strong></li>
+          <li><b>Restaurant</b><span>Bouches-du-Rhône · 600 m²</span><strong>−12,8 % d'électricité · retour en 2 ans</strong></li>
+          <li><b>Logements, bailleur social</b><span>Montpellier (34) · 600 m²</span><strong>−4,6 °C en moyenne · −8,5 °C en pic</strong></li>
+          <li><b>Centre de tri</b><span>Yerres (91) · 1 000 m²</span><strong>−3,5 °C en moyenne · 12 jours d'inconfort en moins</strong></li>
+          <li><b>Industrie pharmaceutique</b><span>750 m²</span><strong>−7,5 °C en pic · 32 jours au-dessus de 28 °C en moins</strong></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -329,7 +351,7 @@
         <details class="faq-item"><summary>Quels types de toiture peut-on traiter ?</summary><p>Bac acier, zinc, aluminium, polycarbonate, membrane bitumineuse, béton, tuiles, ardoises, fibrociment, ainsi que les membranes PVC, TPO et EPDM. La pente doit être d'au moins 3 %, sans zone de stagnation d'eau.</p></details>
         <details class="faq-item"><summary>Combien de temps dure une toiture blanche ?</summary><p>Le revêtement Enercool Sunprotect résiste aux UV, à l'humidité et aux salissures. Après vieillissement accéléré, son indice de réflexion solaire reste à 105 (107 à neuf), sans jaunissement ni craquelure.</p></details>
         <details class="faq-item"><summary>Faut-il arrêter l'activité pendant les travaux ?</summary><p>Non. L'application se fait entièrement par l'extérieur, sans intervention dans les locaux. Votre activité continue normalement pendant le chantier.</p></details>
-        <details class="faq-item"><summary>Quel gain de température peut-on attendre ?</summary><p>En moyenne −5 °C de température intérieure, jusqu'à −8 °C en pic, et −29 % de consommation de climatisation mesurés en saison chaude. Le gain réel dépend du bâtiment : il est estimé lors de la visite technique.</p></details>
+        <details class="faq-item"><summary>Quel gain de température peut-on attendre ?</summary><p>Sur les chantiers mesurés par Enercool : de −3,5 à −4,6 °C de température intérieure en moyenne, jusqu'à −8,5 °C en pic, et de −7 % à −29 % de consommation d'électricité. Le gain réel dépend du bâtiment : il est estimé lors de la visite technique.</p></details>
         <details class="faq-item"><summary>Intervenez-vous dans ma ville ?</summary><p>Nous intervenons de Toulon à Narbonne : Var, Bouches-du-Rhône, Gard, Hérault et Aude. La liste détaillée des villes figure sur la page <a href="zones-intervention.html">zones d'intervention</a>.</p></details>
       </div>
     </div>
@@ -359,6 +381,6 @@
   </div>
 </footer>
 
-<script src="site.js?v=8"></script>
+<script src="site.js?v=9"></script>
 </body>
 </html>
