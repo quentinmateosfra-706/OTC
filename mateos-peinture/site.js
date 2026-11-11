@@ -105,9 +105,8 @@
       var surf = sim.surf;
       var perM2 = sim.sup === 'lisse' ? 1 / 3 : 0.5;  // 2 couches : 5 L = 15 m² (lisse), 5 L = 10 m² (rugueux)
       var litres = Math.ceil(surf * perM2);
-      var seaux = Math.ceil(litres / 17);
       $('r-paint').textContent = fr.format(litres) + ' L';
-      $('r-paint-d').textContent = 'de peinture pour 2 couches, soit ' + seaux + ' seau' + (seaux > 1 ? 'x' : '') + ' de 17 L';
+      $('r-paint-d').textContent = 'de revêtement pour 2 couches';
       var clim = sim.clim === 'oui';
       $('s-bill-row').hidden = !clim;
       var bill = num(sBill.value), eco = $('r-eco'), ecoD = $('r-eco-d'), ecoTxt;

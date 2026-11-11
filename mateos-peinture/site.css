@@ -483,3 +483,12 @@ nav.main a[aria-current="page"]:not(.btn)::after { transform: scaleX(1); }
 .cases-all { margin-top: 14px; }
 .cases-all summary { cursor: pointer; font-weight: 700; color: var(--blue); padding: 8px 0; }
 .cases-all[open] summary { margin-bottom: 4px; }
+
+/* Logo Enercool (applicateur officiel) */
+.enc-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.enc-logo { display: block; width: auto; height: 72px; }
+.enc-logo.sm { height: 44px; }
+.enc-badge { font-weight: 700; font-size: .95rem; background: var(--tone); padding: 8px 14px; border-radius: 999px; }
+.cases-head { display: flex; align-items: center; gap: 14px; }
+.trust li.enc::before { display: none; }
+.trust li.enc img { height: 26px; width: auto; display: block; }
