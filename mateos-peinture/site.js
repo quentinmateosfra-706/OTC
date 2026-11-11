@@ -81,6 +81,19 @@
   // (centre commercial −7,4 %, magasin −29 %, restaurant −12,8 % ; 5,6 à 8 € HT/m²/an ;
   //  −3,5 à −4,6 °C en moyenne, −8,5 °C en pic ; retour sur investissement 2 à 3 ans).
   var ECO_PCT = [0.07, 0.29], ECO_M2 = [5.5, 8], JOURS = [12, 32];
+  // Valeur la plus fréquente : médiane des 5 cas chiffrés (7,4 / 12,8 / 15 / 25 / 29 %) et des 3 cas en €/m².
+  var ECO_TYP_PCT = 0.15, ECO_TYP_M2 = 7.3;
+  // Par type de bâtiment : température mesurée et bénéfices rapportés sur les 21 chantiers.
+  var TYPE = {
+    commerce: { temp: '−3,5 à −4,6 °C', tempD: "à l'intérieur en moyenne, jusqu'à −8,5 °C en pic",
+      benef: ['Résultat ressenti dès le premier jour', 'Moins de pannes des groupes froids', "Moins de risques d'infiltration d'eau"] },
+    bureaux: { temp: '−3,5 à −4,6 °C', tempD: "à l'intérieur en moyenne, aucun bureau au-dessus de 30 °C sur un site mesuré",
+      benef: ['Climatisation moins souvent en surrégime', 'Moins de pannes de climatisation', 'Retours très positifs des occupants'] },
+    industrie: { temp: '−3,5 à −4,5 °C', tempD: "à l'intérieur en moyenne, −7,5 à −8,3 °C en pic",
+      benef: ['Activité maintenue pendant les canicules', 'Fraîcheur immédiate pour les équipes', 'Températures stables pour les produits sensibles'] },
+    logements: { temp: '−4 à −5 °C', tempD: "pour les logements sous toiture, jusqu'à −8,5 °C en pic",
+      benef: ['Écarts de température divisés par 2', 'Dernier étage stable malgré +9 °C dehors', 'Confort d\'été sans climatisation'] }
+  };
   var sRange = $('s-range');
   if (sRange) {
     var sim = { surf: 1000, sup: 'lisse', clim: 'oui', bat: 'commerce' };
@@ -102,13 +115,19 @@
         eco.textContent = 'Confort d\'été';
         ecoD.textContent = 'retrouvé sans installer de climatisation';
         ecoTxt = 'confort d\'été (bâtiment non climatisé)';
+        $('r-typ').textContent = '';
       } else {
         var lo = bill > 0 ? bill * ECO_PCT[0] : surf * ECO_M2[0];
         var hi = bill > 0 ? bill * ECO_PCT[1] : surf * ECO_M2[1];
         eco.textContent = fr.format(cent(lo)) + ' – ' + fr.format(cent(hi)) + ' €';
         ecoD.textContent = bill > 0 ? 'd\'économie d\'électricité par an (−7 % à −29 % de la facture)' : 'd\'économie d\'électricité estimée par an, selon la surface';
         ecoTxt = 'économie estimée ' + fr.format(cent(lo)) + ' à ' + fr.format(cent(hi)) + ' € HT/an';
+        var typ = bill > 0 ? bill * ECO_TYP_PCT : surf * ECO_TYP_M2;
+        $('r-typ').textContent = 'Valeur la plus fréquente sur les chantiers mesurés : environ ' + fr.format(cent(typ)) + ' € par an';
       }
+      var t = TYPE[sim.bat];
+      $('r-temp').textContent = t.temp; $('r-temp-d').textContent = t.tempD;
+      $('r-benef').innerHTML = t.benef.map(function (x) { return '<li>' + x + '</li>'; }).join('');
       var parJours = !clim || sim.bat === 'logements';
       $('r-roi').textContent = parJours ? JOURS[0] + ' à ' + JOURS[1] + ' jours' : '2 à 3 ans';
       $('r-roi-d').textContent = parJours ? 'de chaleur excessive en moins par été' : 'de retour sur investissement constaté';

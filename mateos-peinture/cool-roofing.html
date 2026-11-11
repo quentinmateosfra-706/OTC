@@ -93,7 +93,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="site.css?v=9">
+<link rel="stylesheet" href="site.css?v=10">
 </head>
 <body>
 <header class="top" id="top">
@@ -272,13 +272,15 @@
           <div class="res">
             <span class="v" id="r-eco">5 500 – 8 000 €</span>
             <span class="d" id="r-eco-d">d'économie d'électricité estimée par an</span>
+            <span class="typ" id="r-typ">Valeur la plus fréquente sur les chantiers mesurés : environ 7 000 € par an</span>
           </div>
           <div class="res-grid">
-            <div class="res"><span class="v">−3,5 à −4,6 °C</span><span class="d">à l'intérieur en moyenne, jusqu'à −8,5 °C en pic</span></div>
+            <div class="res"><span class="v" id="r-temp">−3,5 à −4,6 °C</span><span class="d" id="r-temp-d">à l'intérieur en moyenne, jusqu'à −8,5 °C en pic</span></div>
             <div class="res"><span class="v" id="r-roi">2 à 3 ans</span><span class="d" id="r-roi-d">de retour sur investissement constaté</span></div>
             <div class="res"><span class="v" id="r-paint">334 L</span><span class="d" id="r-paint-d">de peinture pour 2 couches</span></div>
             <div class="res"><span class="v">85 %</span><span class="d">du rayonnement solaire renvoyé</span></div>
           </div>
+          <div class="benef"><span class="benef-t">Constaté sur ce type de bâtiment</span><ul id="r-benef"></ul></div>
           <p class="note">Fourchettes indicatives établies à partir des mesures publiées par Enercool sur ses chantiers de référence. Le gain réel dépend du bâtiment : il est estimé lors de la visite technique.</p>
           <a class="btn btn-white" href="contact.html" id="s-cta">Demander une étude gratuite</a>
         </div>
@@ -286,15 +288,41 @@
 
       <div class="cases" data-reveal>
         <h3>Sur quoi repose l'estimation</h3>
-        <p class="cases-intro">Résultats mesurés sur des chantiers de référence du revêtement Enercool (source : Enercool, références et retours d'expérience).</p>
+        <p class="cases-intro">Le calcul s'appuie sur les 21 chantiers de référence publiés par Enercool, de 300 à 24 000 m² (source : Enercool, références et retours d'expérience). Les 6 plus parlants :</p>
         <ul class="cases-list">
-          <li><b>Centre commercial</b><span>Saint-Rémy-de-Provence (13) · 2 993 m²</span><strong>−7,4 % d'électricité · 22 000 € HT/an</strong></li>
-          <li><b>Magasin</b><span>Cabriès (13) · 1 800 m²</span><strong>−29 % d'énergie l'été · 10 000 € HT en 4 mois</strong></li>
-          <li><b>Restaurant</b><span>Bouches-du-Rhône · 600 m²</span><strong>−12,8 % d'électricité · retour en 2 ans</strong></li>
-          <li><b>Logements, bailleur social</b><span>Montpellier (34) · 600 m²</span><strong>−4,6 °C en moyenne · −8,5 °C en pic</strong></li>
-          <li><b>Centre de tri</b><span>Yerres (91) · 1 000 m²</span><strong>−3,5 °C en moyenne · 12 jours d'inconfort en moins</strong></li>
-          <li><b>Industrie pharmaceutique</b><span>750 m²</span><strong>−7,5 °C en pic · 32 jours au-dessus de 28 °C en moins</strong></li>
+          <li><b>Centre commercial</b><span>Saint-Rémy-de-Provence (13) · 2 993 m²</span><strong>−7,4 % d'électricité · 22 000 € HT/an · retour en 3 ans</strong></li>
+          <li><b>Magasin</b><span>Cabriès (13) · 1 800 m²</span><strong>−29 % d'énergie l'été · 10 000 € HT en 4 mois · retour en 3 ans</strong></li>
+          <li><b>Restaurant</b><span>Bouches-du-Rhône · 600 m²</span><strong>−12,8 % d'électricité · 4 812 € HT/an · retour en 2 ans</strong></li>
+          <li><b>Logements, bailleur social</b><span>Montpellier (34) · 600 m²</span><strong>−4,6 °C en moyenne · −8,5 °C en pic · écarts de température divisés par 2</strong></li>
+          <li><b>Centre de tri</b><span>Yerres (91) · 1 000 m²</span><strong>−3,5 °C en moyenne · −8,3 °C en pic · 12 jours d'inconfort en moins</strong></li>
+          <li><b>Industrie pharmaceutique</b><span>750 m²</span><strong>−7,5 °C en pic · −4,5 °C d'amplitude · 32 jours au-dessus de 28 °C en moins</strong></li>
         </ul>
+        <details class="cases-all">
+          <summary>Voir les 21 chantiers de référence</summary>
+          <ul class="cases-list">
+            <li><b>Centre commercial</b><span>Saint-Rémy-de-Provence (13) · 2 993 m²</span><strong>−7,4 % d'électricité · 22 000 € HT/an · retour en 3 ans</strong></li>
+            <li><b>Magasin</b><span>Cabriès (13) · 1 800 m²</span><strong>−29 % d'énergie l'été · 10 000 € HT en 4 mois · retour en 3 ans</strong></li>
+            <li><b>Centre de tri</b><span>Yerres (91) · 1 000 m²</span><strong>−3,5 °C en moyenne · −8,3 °C en pic · 12 jours d'inconfort en moins</strong></li>
+            <li><b>Centres de tri</b><span>Sarthe (72) · 1 120 m²</span><strong>Confort nettement amélioré pour les opérateurs</strong></li>
+            <li><b>Logements, bailleur social</b><span>Montpellier (34) · 600 m²</span><strong>−4,6 °C en moyenne · −8,5 °C en pic · écarts de température divisés par 2</strong></li>
+            <li><b>Restaurant</b><span>Bouches-du-Rhône · 600 m²</span><strong>−12,8 % d'électricité · 4 812 € HT/an · retour en 2 ans</strong></li>
+            <li><b>Restaurants</b><span>Île-de-France · 7 restaurants</span><strong>Plus de 15 % d'économies d'énergie · aucune panne de groupe froid l'été</strong></li>
+            <li><b>Bureaux, foncière</b><span>Île-de-France · 3 800 m²</span><strong>Retours très positifs des occupants, déploiement sur tout le parc</strong></li>
+            <li><b>Industrie agroalimentaire</b><span>6 530 m² en deux tranches</span><strong>Activité maintenue pendant les canicules</strong></li>
+            <li><b>Bâtiment commercial, foncière</b><span>3 300 m²</span><strong>Toiture entière traitée en une semaine de travaux</strong></li>
+            <li><b>Industrie pharmaceutique</b><span>750 m²</span><strong>−7,5 °C en pic · −4,5 °C d'amplitude · 32 jours au-dessus de 28 °C en moins</strong></li>
+            <li><b>Sites techniques</b><span>Corse · 950 m² (60 sites)</span><strong>−25 % de consommation</strong></li>
+            <li><b>Site industriel</b><span>24 000 m²</span><strong>Baisse de température immédiate, devenu le standard du client</strong></li>
+            <li><b>Industrie</b><span>800 m²</span><strong>Aucun bureau au-dessus de 30 °C depuis l'application</strong></li>
+            <li><b>Tertiaire</b><span>2 500 m² en deux tranches</span><strong>Climatisation moins sollicitée, moins de pannes</strong></li>
+            <li><b>Industrie</b><span>3 200 m²</span><strong>Fraîcheur ressentie dès la fin des travaux</strong></li>
+            <li><b>Industrie</b><span>800 m²</span><strong>Sensation de fraîcheur immédiate</strong></li>
+            <li><b>Atelier</b><span>Guérande (44) · 800 m²</span><strong>Fraîcheur immédiate dans l'atelier</strong></li>
+            <li><b>Industrie</b><span>1 800 m²</span><strong>Baisse de température nette dans des locaux anciens mal isolés</strong></li>
+            <li><b>Bâtiment tertiaire</b><span>Aix-en-Provence (13) · 300 m²</span><strong>Coloris vert pastel · forte baisse de la chaleur l'été</strong></li>
+            <li><b>Logements, bailleur social</b><span>Isère (38) · 560 m²</span><strong>Dernier étage stable malgré +9 °C à l'extérieur, sans climatisation</strong></li>
+          </ul>
+        </details>
       </div>
     </div>
   </section>
@@ -381,6 +409,6 @@
   </div>
 </footer>
 
-<script src="site.js?v=9"></script>
+<script src="site.js?v=10"></script>
 </body>
 </html>
