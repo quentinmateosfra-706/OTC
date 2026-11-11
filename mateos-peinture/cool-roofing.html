@@ -6,14 +6,14 @@
 <title>Cool roofing et toiture blanche à Toulon | Mateos Peinture</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Cool roofing (cool roof, toiture blanche réflective) à Toulon, dans le Var et jusqu'à Narbonne. Applicateur officiel Enercool : jusqu'à −5 °C à l'intérieur, −29 % de climatisation. Simulateur et visite gratuite.">
-<link rel="canonical" href="https://mateos-peinture-a3d04ec2.base44.app/cool-roofing.html">
+<link rel="canonical" href="https://mateospeinture.com/cool-roofing.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Mateos Peinture">
 <meta property="og:title" content="Cool roofing et toiture blanche à Toulon | Mateos Peinture">
 <meta property="og:description" content="Cool roofing (cool roof, toiture blanche réflective) à Toulon, dans le Var et jusqu'à Narbonne. Applicateur officiel Enercool : jusqu'à −5 °C à l'intérieur, −29 % de climatisation. Simulateur et visite gratuite.">
-<meta property="og:url" content="https://mateos-peinture-a3d04ec2.base44.app/cool-roofing.html">
-<meta property="og:image" content="https://mateos-peinture-a3d04ec2.base44.app/img/toiture-entrepot-1.jpg">
+<meta property="og:url" content="https://mateospeinture.com/cool-roofing.html">
+<meta property="og:image" content="https://mateospeinture.com/img/toiture-entrepot-1.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -23,13 +23,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Accueil",
-      "item": "https://mateos-peinture-a3d04ec2.base44.app/"
+      "item": "https://mateospeinture.com/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Cool roofing",
-      "item": "https://mateos-peinture-a3d04ec2.base44.app/cool-roofing.html"
+      "item": "https://mateospeinture.com/cool-roofing.html"
     }
   ]
 }
@@ -93,7 +93,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="site.css?v=11">
+<link rel="stylesheet" href="site.css?v=12">
 </head>
 <body>
 <header class="top" id="top">
@@ -106,6 +106,7 @@
     <nav class="main" aria-label="Navigation principale">
       <a href="index.html">Accueil</a>
       <a href="cool-roofing.html" aria-current="page">Cool roofing</a>
+      <a href="calculateur.html">Calculateur</a>
       <a href="peinture-interieure.html">Peinture d'intérieur</a>
       <a class="btn btn-primary" href="contact.html">Contact & devis</a>
       <a class="contact-tab" href="contact.html">Contact</a>
@@ -121,7 +122,7 @@
         <p class="lead">Application de revêtements réflectifs sur toitures, de Toulon à Narbonne. Le cool roofing (ou <em>cool roof</em>, toiture blanche) renvoie jusqu'à 85 % du rayonnement solaire et limite la surchauffe des bâtiments, sans travaux lourds ni interruption d'activité.</p>
         <div class="actions">
           <a class="btn btn-primary" href="contact.html">Demander une visite technique</a>
-          <a class="btn btn-soft" href="#simulateur">Simuler mes économies</a>
+          <a class="btn btn-soft" href="calculateur.html">Calculer mes économies</a>
         </div>
       </div>
     </div>
@@ -226,104 +227,12 @@
   </section>
 
   <section id="simulateur" class="on-tone">
-    <div class="wrap">
-      <div class="split" data-reveal>
-        <h2>Simulez vos économies.</h2>
-        <p class="lead" style="max-width:48ch">Une fourchette indicative, calculée à partir de résultats mesurés sur des chantiers réels. Elle se met à jour en direct.</p>
+    <div class="wrap calc-teaser" data-reveal>
+      <div>
+        <h2>Combien pouvez-vous économiser ?</h2>
+        <p class="lead" style="margin-top:16px;max-width:52ch">Notre calculateur donne une fourchette d'économies, le gain de température et le retour sur investissement pour votre bâtiment, d'après 21 chantiers de référence Enercool.</p>
       </div>
-      <div class="sim">
-        <form class="sim-in" id="simform" onsubmit="return false" data-reveal>
-          <div class="sim-row">
-            <label for="s-surf">Surface de toiture</label>
-            <div class="surf">
-              <input id="s-range" type="range" min="50" max="10000" step="50" value="1000" aria-label="Surface de toiture en mètres carrés">
-              <span class="num"><input id="s-surf" type="text" inputmode="numeric" value="1000" aria-describedby="s-unit"><span id="s-unit">m²</span></span>
-            </div>
-          </div>
-          <div class="sim-row">
-            <span class="lbl" id="s-bat-l">Type de bâtiment</span>
-            <div class="seg" role="group" aria-labelledby="s-bat-l" id="s-bat">
-              <button type="button" data-v="commerce" aria-pressed="true">Commerce, restauration</button>
-              <button type="button" data-v="bureaux" aria-pressed="false">Bureaux</button>
-              <button type="button" data-v="industrie" aria-pressed="false">Industrie, entrepôt</button>
-              <button type="button" data-v="logements" aria-pressed="false">Logements</button>
-            </div>
-          </div>
-          <div class="sim-row">
-            <span class="lbl" id="s-sup-l">Type de toiture</span>
-            <div class="seg" role="group" aria-labelledby="s-sup-l" id="s-sup">
-              <button type="button" data-v="lisse" aria-pressed="true">Lisse<small>bac acier, zinc, polycarbonate</small></button>
-              <button type="button" data-v="rugueux" aria-pressed="false">Rugueuse<small>membrane, béton, tuiles, fibrociment</small></button>
-            </div>
-          </div>
-          <div class="sim-row">
-            <span class="lbl" id="s-clim-l">Le bâtiment est-il climatisé ?</span>
-            <div class="seg" role="group" aria-labelledby="s-clim-l" id="s-clim">
-              <button type="button" data-v="oui" aria-pressed="true">Oui</button>
-              <button type="button" data-v="non" aria-pressed="false">Non</button>
-            </div>
-          </div>
-          <div class="sim-row" id="s-bill-row">
-            <label for="s-bill">Facture d'électricité annuelle (facultatif)</label>
-            <div class="euro"><input id="s-bill" type="text" inputmode="numeric" placeholder="Ex. : 50 000"><span>€ HT</span></div>
-          </div>
-        </form>
-        <div class="sim-out" aria-live="polite" data-reveal>
-          <div class="res">
-            <span class="v" id="r-eco">5 500 – 8 000 €</span>
-            <span class="d" id="r-eco-d">d'économie d'électricité estimée par an</span>
-            <span class="typ" id="r-typ">Valeur la plus fréquente sur les chantiers mesurés : environ 7 000 € par an</span>
-          </div>
-          <div class="res-grid">
-            <div class="res"><span class="v" id="r-temp">−3,5 à −4,6 °C</span><span class="d" id="r-temp-d">à l'intérieur en moyenne, jusqu'à −8,5 °C en pic</span></div>
-            <div class="res"><span class="v" id="r-roi">2 à 3 ans</span><span class="d" id="r-roi-d">de retour sur investissement constaté</span></div>
-            <div class="res"><span class="v" id="r-paint">334 L</span><span class="d" id="r-paint-d">de revêtement pour 2 couches</span></div>
-            <div class="res"><span class="v">85 %</span><span class="d">du rayonnement solaire renvoyé</span></div>
-          </div>
-          <div class="benef"><span class="benef-t">Constaté sur ce type de bâtiment</span><ul id="r-benef"></ul></div>
-          <p class="note">Fourchettes indicatives établies à partir des mesures publiées par Enercool sur ses chantiers de référence. Le gain réel dépend du bâtiment : il est estimé lors de la visite technique.</p>
-          <a class="btn btn-white" href="contact.html" id="s-cta">Demander une étude gratuite</a>
-        </div>
-      </div>
-
-      <div class="cases" data-reveal>
-        <div class="cases-head"><img class="enc-logo sm" src="img/enercool.png" width="221" height="243" alt="Logo Enercool"><h3>Sur quoi repose l'estimation</h3></div>
-        <p class="cases-intro">Le calcul s'appuie sur les 21 chantiers de référence publiés par Enercool, de 300 à 24 000 m² (source : Enercool, références et retours d'expérience). Les 6 plus parlants :</p>
-        <ul class="cases-list">
-          <li><b>Centre commercial</b><span>Saint-Rémy-de-Provence (13) · 2 993 m²</span><strong>−7,4 % d'électricité · 22 000 € HT/an · retour en 3 ans</strong></li>
-          <li><b>Magasin</b><span>Cabriès (13) · 1 800 m²</span><strong>−29 % d'énergie l'été · 10 000 € HT en 4 mois · retour en 3 ans</strong></li>
-          <li><b>Restaurant</b><span>Bouches-du-Rhône · 600 m²</span><strong>−12,8 % d'électricité · 4 812 € HT/an · retour en 2 ans</strong></li>
-          <li><b>Logements, bailleur social</b><span>Montpellier (34) · 600 m²</span><strong>−4,6 °C en moyenne · −8,5 °C en pic · écarts de température divisés par 2</strong></li>
-          <li><b>Centre de tri</b><span>Yerres (91) · 1 000 m²</span><strong>−3,5 °C en moyenne · −8,3 °C en pic · 12 jours d'inconfort en moins</strong></li>
-          <li><b>Industrie pharmaceutique</b><span>750 m²</span><strong>−7,5 °C en pic · −4,5 °C d'amplitude · 32 jours au-dessus de 28 °C en moins</strong></li>
-        </ul>
-        <details class="cases-all">
-          <summary>Voir les 21 chantiers de référence</summary>
-          <ul class="cases-list">
-            <li><b>Centre commercial</b><span>Saint-Rémy-de-Provence (13) · 2 993 m²</span><strong>−7,4 % d'électricité · 22 000 € HT/an · retour en 3 ans</strong></li>
-            <li><b>Magasin</b><span>Cabriès (13) · 1 800 m²</span><strong>−29 % d'énergie l'été · 10 000 € HT en 4 mois · retour en 3 ans</strong></li>
-            <li><b>Centre de tri</b><span>Yerres (91) · 1 000 m²</span><strong>−3,5 °C en moyenne · −8,3 °C en pic · 12 jours d'inconfort en moins</strong></li>
-            <li><b>Centres de tri</b><span>Sarthe (72) · 1 120 m²</span><strong>Confort nettement amélioré pour les opérateurs</strong></li>
-            <li><b>Logements, bailleur social</b><span>Montpellier (34) · 600 m²</span><strong>−4,6 °C en moyenne · −8,5 °C en pic · écarts de température divisés par 2</strong></li>
-            <li><b>Restaurant</b><span>Bouches-du-Rhône · 600 m²</span><strong>−12,8 % d'électricité · 4 812 € HT/an · retour en 2 ans</strong></li>
-            <li><b>Restaurants</b><span>Île-de-France · 7 restaurants</span><strong>Plus de 15 % d'économies d'énergie · aucune panne de groupe froid l'été</strong></li>
-            <li><b>Bureaux, foncière</b><span>Île-de-France · 3 800 m²</span><strong>Retours très positifs des occupants, déploiement sur tout le parc</strong></li>
-            <li><b>Industrie agroalimentaire</b><span>6 530 m² en deux tranches</span><strong>Activité maintenue pendant les canicules</strong></li>
-            <li><b>Bâtiment commercial, foncière</b><span>3 300 m²</span><strong>Toiture entière traitée en une semaine de travaux</strong></li>
-            <li><b>Industrie pharmaceutique</b><span>750 m²</span><strong>−7,5 °C en pic · −4,5 °C d'amplitude · 32 jours au-dessus de 28 °C en moins</strong></li>
-            <li><b>Sites techniques</b><span>Corse · 950 m² (60 sites)</span><strong>−25 % de consommation</strong></li>
-            <li><b>Site industriel</b><span>24 000 m²</span><strong>Baisse de température immédiate, devenu le standard du client</strong></li>
-            <li><b>Industrie</b><span>800 m²</span><strong>Aucun bureau au-dessus de 30 °C depuis l'application</strong></li>
-            <li><b>Tertiaire</b><span>2 500 m² en deux tranches</span><strong>Climatisation moins sollicitée, moins de pannes</strong></li>
-            <li><b>Industrie</b><span>3 200 m²</span><strong>Fraîcheur ressentie dès la fin des travaux</strong></li>
-            <li><b>Industrie</b><span>800 m²</span><strong>Sensation de fraîcheur immédiate</strong></li>
-            <li><b>Atelier</b><span>Guérande (44) · 800 m²</span><strong>Fraîcheur immédiate dans l'atelier</strong></li>
-            <li><b>Industrie</b><span>1 800 m²</span><strong>Baisse de température nette dans des locaux anciens mal isolés</strong></li>
-            <li><b>Bâtiment tertiaire</b><span>Aix-en-Provence (13) · 300 m²</span><strong>Coloris vert pastel · forte baisse de la chaleur l'été</strong></li>
-            <li><b>Logements, bailleur social</b><span>Isère (38) · 560 m²</span><strong>Dernier étage stable malgré +9 °C à l'extérieur, sans climatisation</strong></li>
-          </ul>
-        </details>
-      </div>
+      <a class="btn btn-primary" href="calculateur.html">Ouvrir le calculateur</a>
     </div>
   </section>
 
@@ -403,7 +312,7 @@
   <div class="wrap">
     <div class="name">Mateos Peinture</div>
     <nav class="links" aria-label="Pages du site">
-      <a href="index.html">Accueil</a><a href="cool-roofing.html">Cool roofing</a><a href="peinture-interieure.html">Peinture d'intérieur</a><a href="zones-intervention.html">Zones d'intervention</a><a href="contact.html">Contact &amp; devis</a>
+      <a href="index.html">Accueil</a><a href="cool-roofing.html">Cool roofing</a><a href="calculateur.html">Calculateur</a><a href="peinture-interieure.html">Peinture d'intérieur</a><a href="zones-intervention.html">Zones d'intervention</a><a href="contact.html">Contact &amp; devis</a>
     </nav>
     <div class="meta">
       <span>Cool roofing, toiture blanche et peinture d'intérieur · Toulon, Var · de Toulon à Narbonne</span>
@@ -412,6 +321,6 @@
   </div>
 </footer>
 
-<script src="site.js?v=11"></script>
+<script src="site.js?v=12"></script>
 </body>
 </html>

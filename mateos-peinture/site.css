@@ -492,3 +492,7 @@ nav.main a[aria-current="page"]:not(.btn)::after { transform: scaleX(1); }
 .cases-head { display: flex; align-items: center; gap: 14px; }
 .trust li.enc::before { display: none; }
 .trust li.enc img { height: 26px; width: auto; display: block; }
+
+/* Bandeau vers le calculateur */
+.calc-teaser { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 48px; }
+@media (max-width: 1100px) { nav.main { gap: 20px; } }
