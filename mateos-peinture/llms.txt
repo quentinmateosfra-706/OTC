@@ -17,7 +17,7 @@
 
 La peinture réflective blanche appliquée sur la toiture renvoie jusqu'à 85 % du rayonnement solaire. Le toit chauffe beaucoup moins et le bâtiment reste plus frais. Les travaux se font par l'extérieur, sans arrêter l'activité : nettoyage, traitement anti-algues, primaire d'accroche, puis deux couches croisées de 250 g/m².
 
-Résultats mesurés publiés par Enercool sur ses chantiers de référence : de −3,5 à −4,6 °C de température intérieure en moyenne, jusqu'à −8,5 °C en pic, de −7 % à −29 % de consommation d'électricité, retour sur investissement de 2 à 3 ans.
+Résultats mesurés publiés par Enercool sur ses chantiers de référence : de −3,5 à −4,6 °C de température intérieure en moyenne, jusqu'à −8,5 °C en pic, de −7 % à −29 % de consommation d'électricité, retour sur investissement de 2 à 3 ans. Dans une école mesurée en 2026, l'étage sous la toiture a gagné −5,6 °C et les heures au-dessus de 30 °C ont baissé de 74 %. Sur un site industriel de 53 000 m², 3 à 9 °C de moins l'après-midi à météo égale.
 
 Supports : bac acier, zinc, aluminium, polycarbonate, membrane bitumineuse, béton, tuiles, ardoises, fibrociment, membranes PVC, TPO et EPDM (pente d'au moins 3 %).
 
@@ -29,7 +29,7 @@ Murs, plafonds, portes et menuiseries, papier peint et toile de verre, préparat
 
 - [Accueil](https://mateospeinture.com/): présentation de Mateos Peinture.
 - [Cool roofing](https://mateospeinture.com/cool-roofing.html): principe, méthode, réalisation, fiche technique Enercool Sunprotect, questions fréquentes.
-- [Calculateur cool roofing](https://mateospeinture.com/calculateur.html): estimation des économies d'électricité, de la baisse de température et du retour sur investissement selon le type de bâtiment, d'après 21 chantiers de référence Enercool.
+- [Calculateur cool roofing](https://mateospeinture.com/calculateur.html): estimation des économies d'électricité, de la baisse de température et du retour sur investissement selon le type de bâtiment, d'après 25 chantiers de référence Enercool.
 - [Peinture d'intérieur](https://mateospeinture.com/peinture-interieure.html): prestations et chantier en photos.
 - [Zones d'intervention](https://mateospeinture.com/zones-intervention.html): villes desservies de Toulon à Narbonne (Toulon, La Seyne-sur-Mer, Hyères, La Ciotat, Marseille, Aix-en-Provence, Nîmes, Montpellier, Sète, Béziers, Narbonne…).
 - [Contact et devis](https://mateospeinture.com/contact.html): demande de devis gratuit et coordonnées.
