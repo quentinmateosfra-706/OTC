@@ -1,0 +1,258 @@
+(function () {
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fr = new Intl.NumberFormat('fr-FR');
+  function $(id) { return document.getElementById(id); }
+  function num(v) { var n = parseInt(String(v).replace(/[^\d]/g, ''), 10); return isNaN(n) ? 0 : n; }
+  function store(key, val) { try { if (val === undefined) { var v = sessionStorage.getItem(key); sessionStorage.removeItem(key); return v; } sessionStorage.setItem(key, val); } catch (e) { return null; } }
+
+  // Apparitions au défilement
+  var blocks = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    blocks.forEach(function (b) { io.observe(b); });
+  } else {
+    blocks.forEach(function (b) { b.classList.add('in'); });
+  }
+  setTimeout(function () { blocks.forEach(function (b) { b.classList.add('in'); }); }, 2500);
+
+  // Chiffres qui défilent
+  document.querySelectorAll('[data-count]').forEach(function (el) {
+    if (reduce) return;
+    var target = parseFloat(el.dataset.count), suf = el.dataset.suffix || '', t0 = null, dur = 1200;
+    function fmt(v) { return (Math.round(v) < 0 ? '−' : '') + Math.abs(Math.round(v)) + suf; }
+    el.textContent = fmt(0);
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(target * e);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    setTimeout(function () { requestAnimationFrame(step); }, 350);
+  });
+
+  // Toiture avant / après (dessin)
+  var card = $('roofcard');
+  if (card) {
+    var roof = $('roof'), temp = $('temp'), tempc = $('tempc');
+    var tbtn = card.querySelectorAll('.toggle button');
+    var touched = false;
+    var setRoof = function (s) {
+      var apres = s === 'apres';
+      card.dataset.state = s;
+      roof.setAttribute('fill', apres ? '#f4f4ed' : '#3a4248');
+      temp.textContent = apres ? '45 °C' : '70 °C';
+      temp.style.color = apres ? 'var(--blue)' : 'var(--hot)';
+      tempc.textContent = apres ? 'même soleil, toiture traitée' : "toiture sombre, plein soleil d'été";
+      tbtn.forEach(function (o) { o.setAttribute('aria-pressed', o.dataset.s === s ? 'true' : 'false'); });
+    };
+    tbtn.forEach(function (b) {
+      b.addEventListener('click', function () { touched = true; setRoof(b.dataset.s); });
+    });
+    if ('IntersectionObserver' in window) {
+      var rio = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { rio.disconnect(); setTimeout(function () { if (!touched) setRoof('apres'); }, 900); }
+      }, { threshold: 0.6 });
+      rio.observe(card);
+    }
+  }
+
+  // Avant / après de la cloison
+  var ba = $('ba'), baR = $('ba-range');
+  if (ba && baR) baR.addEventListener('input', function () { ba.style.setProperty('--pos', baR.value + '%'); });
+
+  // Nuancier
+  var wall = $('wall');
+  if (wall) {
+    var sw = document.querySelectorAll('.swatch');
+    sw.forEach(function (b) {
+      b.addEventListener('click', function () {
+        wall.setAttribute('fill', b.dataset.c);
+        sw.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      });
+    });
+  }
+
+  // Simulateur : fourchettes tirées des mesures publiées par Enercool sur ses chantiers de référence
+  // (centre commercial −7,4 %, magasin −29 %, restaurant −12,8 % ; 5,6 à 8 € HT/m²/an ;
+  //  −3,5 à −4,6 °C en moyenne, −8,5 °C en pic ; retour sur investissement 2 à 3 ans).
+  var ECO_PCT = [0.07, 0.29], ECO_M2 = [5.5, 8], JOURS = [12, 32];
+  // Valeur la plus fréquente : médiane des 5 cas chiffrés (7,4 / 12,8 / 15 / 25 / 29 %) et des 3 cas en €/m².
+  var ECO_TYP_PCT = 0.15, ECO_TYP_M2 = 7.3;
+  // Par type de bâtiment : température mesurée et bénéfices rapportés sur les 21 chantiers.
+  var IND = { temp: '−3,5 à −4,5 °C', tempD: "à l'intérieur en moyenne, −7,5 à −8,3 °C en pic" };
+  var LOG = { temp: '−4 à −5 °C', tempD: "pour les logements sous toiture, jusqu'à −8,5 °C en pic" };
+  var GEN = { temp: '−3,5 à −4,6 °C', tempD: "à l'intérieur en moyenne, jusqu'à −8,5 °C en pic" };
+  var TYPE = {
+    industrie: { t: IND, label: 'site industriel', benef: ['Activité maintenue pendant les canicules', 'Fraîcheur immédiate pour les équipes', 'Moins de jours au-dessus de 28 °C'] },
+    entrepot: { t: IND, label: 'entrepôt / logistique', benef: ['Températures stables pour les produits sensibles', 'Fraîcheur immédiate pour les équipes', 'Chantier sans arrêt de l\'activité'] },
+    commerce: { t: GEN, label: 'surface commerciale', benef: ['Résultat ressenti dès le premier jour', 'Moins de pannes des groupes froids', "Moins de risques d'infiltration d'eau"] },
+    bureaux: { t: { temp: GEN.temp, tempD: "à l'intérieur en moyenne, aucun bureau au-dessus de 30 °C sur un site mesuré" }, label: 'bureaux / tertiaire',
+      benef: ['Climatisation moins souvent en surrégime', 'Moins de pannes de climatisation', 'Retours très positifs des occupants'] },
+    bailleurs: { t: LOG, label: 'bailleur social', benef: ['Écarts de température divisés par 2', 'Dernier étage stable malgré +9 °C dehors', "Confort d'été sans climatisation pour les locataires"] },
+    coproprietes: { t: LOG, label: 'copropriété', benef: ['Logements du dernier étage plus frais', 'Écarts de température divisés par 2', "Confort d'été sans climatisation"] },
+    publics: { t: GEN, label: 'établissement public', benef: ['Confort nettement amélioré pour les agents', "12 jours d'inconfort en moins sur un site mesuré", 'Travaux sans fermer le bâtiment'] },
+    ecoles: { t: GEN, label: 'école', benef: ["Confort d'été sans climatisation", 'Jours de chaleur excessive en moins', 'Travaux réalisés par l\'extérieur'] }
+  };
+  var sRange = $('s-range');
+  if (sRange) {
+    var sim = { surf: 1000, sup: 'lisse', clim: 'oui', bat: 'commerce' };
+    var sSurf = $('s-surf'), sBill = $('s-bill');
+    var summary = '';
+    var cent = function (x) { return Math.round(x / 100) * 100; };
+    var compute = function () {
+      var surf = sim.surf;
+      var perM2 = sim.sup === 'lisse' ? 1 / 3 : 0.5;  // 2 couches : 5 L = 15 m² (lisse), 5 L = 10 m² (rugueux)
+      var litres = Math.ceil(surf * perM2);
+      $('r-paint').textContent = fr.format(litres) + ' L';
+      $('r-paint-d').textContent = 'de revêtement pour 2 couches';
+      var clim = sim.clim === 'oui';
+      $('s-bill-row').hidden = !clim;
+      var bill = num(sBill.value), eco = $('r-eco'), ecoD = $('r-eco-d'), ecoTxt;
+      if (!clim) {
+        eco.textContent = 'Confort d\'été';
+        ecoD.textContent = 'retrouvé sans installer de climatisation';
+        ecoTxt = 'confort d\'été (bâtiment non climatisé)';
+        $('r-typ').textContent = '';
+      } else {
+        var lo = bill > 0 ? bill * ECO_PCT[0] : surf * ECO_M2[0];
+        var hi = bill > 0 ? bill * ECO_PCT[1] : surf * ECO_M2[1];
+        eco.textContent = fr.format(cent(lo)) + ' – ' + fr.format(cent(hi)) + ' €';
+        ecoD.textContent = bill > 0 ? 'd\'économie d\'électricité par an (−7 % à −29 % de la facture)' : 'd\'économie d\'électricité estimée par an, selon la surface';
+        ecoTxt = 'économie estimée ' + fr.format(cent(lo)) + ' à ' + fr.format(cent(hi)) + ' € HT/an';
+        var typ = bill > 0 ? bill * ECO_TYP_PCT : surf * ECO_TYP_M2;
+        $('r-typ').textContent = 'Valeur la plus fréquente sur les chantiers mesurés : environ ' + fr.format(cent(typ)) + ' € par an';
+      }
+      var t = TYPE[sim.bat];
+      $('r-temp').textContent = t.t.temp; $('r-temp-d').textContent = t.t.tempD;
+      $('r-benef').innerHTML = t.benef.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+      var parJours = !clim || sim.bat === 'bailleurs' || sim.bat === 'coproprietes' || sim.bat === 'ecoles';
+      $('r-roi').textContent = parJours ? JOURS[0] + ' à ' + JOURS[1] + ' jours' : '2 à 3 ans';
+      $('r-roi-d').textContent = parJours ? 'de chaleur excessive en moins par été' : 'de retour sur investissement constaté';
+      summary = 'Simulateur : ' + TYPE[sim.bat].label + ', ' + fr.format(surf) + ' m², toiture ' + (sim.sup === 'lisse' ? 'lisse' : 'rugueuse') + ', ' +
+        (clim ? 'climatisé' : 'non climatisé') + (clim && bill ? ', facture électricité ' + fr.format(bill) + ' €/an' : '') +
+        ', ' + ecoTxt + ', peinture estimée ' + fr.format(litres) + ' L (estimation non contractuelle).';
+    };
+    var segs = function (id, key) {
+      var bs = document.querySelectorAll('#' + id + ' button');
+      bs.forEach(function (b) {
+        b.addEventListener('click', function () {
+          sim[key] = b.dataset.v;
+          bs.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+          compute();
+        });
+      });
+    };
+    segs('s-sup', 'sup'); segs('s-clim', 'clim'); segs('s-bat', 'bat');
+    sRange.addEventListener('input', function () { sim.surf = num(sRange.value); sSurf.value = fr.format(sim.surf); compute(); });
+    sSurf.addEventListener('input', function () { sim.surf = num(sSurf.value); sRange.value = Math.min(10000, Math.max(50, sim.surf)); compute(); });
+    sSurf.addEventListener('blur', function () { sSurf.value = fr.format(sim.surf); });
+    sBill.addEventListener('input', compute);
+    sBill.addEventListener('blur', function () { var b = num(sBill.value); sBill.value = b ? fr.format(b) : ''; });
+    compute();
+    // L'estimation suit le visiteur jusqu'à la page de contact
+    $('s-cta').addEventListener('click', function () {
+      store('mp-sim', JSON.stringify({ surf: sim.surf, summary: summary }));
+    });
+  }
+
+  // Formulaire : enregistre la demande dans Base44
+  var form = $('quote');
+  if (form) {
+    var saved = store('mp-sim');
+    if (saved) {
+      try {
+        var s = JSON.parse(saved);
+        $('f-type').value = 'Cool roofing (toiture)';
+        $('f-surf').value = s.surf;
+        $('f-est').value = s.summary;
+        $('f-msg').value = s.summary + ' ';
+      } catch (e) { /* estimation illisible : formulaire vide */ }
+    }
+    if (location.hash === '#interieur') $('f-type').value = 'Peinture intérieure';
+    var APP_ID = '6adf9892ccf39d45a3d04ec2';
+    var ok = $('form-ok');
+    var sendBtn = form.querySelector('button[type=submit]');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nom = form.nom.value.trim(), tel = form.tel.value.trim();
+      ok.hidden = false; ok.classList.remove('err');
+      if (!nom || !tel) {
+        ok.classList.add('err');
+        ok.textContent = 'Indiquez au moins votre nom et votre téléphone pour être recontacté.';
+        (nom ? form.tel : form.nom).focus();
+        return;
+      }
+      var record = {
+        nom: nom, telephone: tel, email: form.mail.value.trim(), ville: form.ville.value.trim(),
+        type_travaux: form.type.value, surface_m2: num(form.surf.value) || null,
+        message: form.msg.value.trim(), estimation: form.estimation.value,
+        source: form.estimation.value ? 'simulateur' : 'formulaire', statut: 'nouvelle'
+      };
+      sendBtn.disabled = true; ok.textContent = 'Envoi en cours…';
+      // Double envoi : enregistrement dans Base44 + e-mail à Quentin via FormSubmit.
+      var nr = function (x) { return x ? String(x) : 'non renseigné'; };
+      var mail = {
+        'Nom / société': nom, 'Téléphone': tel, 'E-mail': nr(record.email), 'Ville du chantier': nr(record.ville),
+        'Type de travaux': record.type_travaux, 'Surface (m²)': nr(record.surface_m2), 'Message': record.message || '(aucun message)',
+        'Estimation du simulateur': record.estimation || 'aucune', 'Origine': record.source,
+        _subject: 'Nouvelle demande de devis : ' + nom + ' (' + record.type_travaux + ')',
+        _template: 'table', _captcha: 'false'
+      };
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(record.email)) mail._replyto = record.email;  // FormSubmit refuse une adresse de réponse invalide
+      var post = function (url, headers, data) {
+        return fetch(url, { method: 'POST', headers: headers, body: JSON.stringify(data) })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r; });
+      };
+      Promise.allSettled([
+        post('/api/apps/' + APP_ID + '/entities/DemandeDevis', { 'X-App-Id': APP_ID, 'Content-Type': 'application/json' }, record),
+        post('https://formsubmit.co/ajax/quentin.mateos@outlook.com', { 'Content-Type': 'application/json', 'Accept': 'application/json' }, mail)
+      ]).then(function (res) {
+        if (res.some(function (x) { return x.status === 'fulfilled'; })) {
+          form.reset(); form.estimation.value = '';
+          ok.textContent = 'Merci ' + nom + ', votre demande a bien été transmise. Nous vous recontactons sous 48 h ouvrées.';
+        } else {
+          ok.classList.add('err');
+          ok.textContent = "La demande n'a pas pu partir. Contactez-nous directement au 07 69 94 08 31 ou à quentin.mateos@outlook.com.";
+        }
+        sendBtn.disabled = false;
+      });
+    });
+  }
+
+  // ---- v6 : titres mot par mot, photos qui se dévoilent, profondeur, en-tête ----
+  document.querySelectorAll('.split-words').forEach(function (h) {
+    h.querySelectorAll('.w > span').forEach(function (s, i) { s.style.setProperty('--i', i); });
+    requestAnimationFrame(function () { requestAnimationFrame(function () { h.classList.add('in'); }); });
+  });
+
+  var imgs = document.querySelectorAll('.reveal-img');
+  if ('IntersectionObserver' in window) {
+    var rio2 = new IntersectionObserver(function (en) {
+      en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rio2.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    imgs.forEach(function (el) { rio2.observe(el); });
+  }
+  setTimeout(function () { imgs.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+
+  var hdr = document.getElementById('top');
+  var par = reduce ? [] : Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  var ticking = false;
+  function onScroll() {
+    if (hdr) hdr.classList.toggle('scrolled', window.scrollY > 12);
+    var vh = window.innerHeight;
+    par.forEach(function (img) {
+      var r = img.parentNode.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      var p = (r.top + r.height / 2 - vh / 2) / vh;  // -1 … 1
+      img.style.transform = 'translate3d(0,' + (p * -9).toFixed(2) + '%,0)';
+    });
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+})();
