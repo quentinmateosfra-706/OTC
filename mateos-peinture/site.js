@@ -135,7 +135,7 @@
       $('r-roi-d').textContent = parJours ? 'de chaleur excessive en moins par été' : 'de retour sur investissement constaté';
       summary = 'Simulateur : ' + TYPE[sim.bat].label + ', ' + fr.format(surf) + ' m², toiture ' + (sim.sup === 'lisse' ? 'lisse' : 'rugueuse') + ', ' +
         (clim ? 'climatisé' : 'non climatisé') + (clim && bill ? ', facture électricité ' + fr.format(bill) + ' €/an' : '') +
-        ', ' + ecoTxt + ', peinture estimée ' + fr.format(litres) + ' L.';
+        ', ' + ecoTxt + ', peinture estimée ' + fr.format(litres) + ' L (estimation non contractuelle).';
     };
     var segs = function (id, key) {
       var bs = document.querySelectorAll('#' + id + ' button');

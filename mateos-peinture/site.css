@@ -221,6 +221,7 @@ footer .meta a:hover { color: #ffffff; }
 .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 24px; }
 .sim-out .note { font-size: .9rem; opacity: .85; }
 .sim-out .btn { justify-self: start; }
+.sim-out .sim-tag { justify-self: start; margin: 0; padding: 5px 10px; border: 1px solid currentColor; border-radius: 3px; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 @media (max-width: 860px) { .sim { grid-template-columns: 1fr; } }
 @media (max-width: 420px) { .res-grid { grid-template-columns: 1fr; } }
 .form-ok.err { background: #fde9e4; }
